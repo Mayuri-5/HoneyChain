@@ -3,20 +3,32 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Honey Chain traceability and smart beekeeping API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
-    description: Health operations
+  - name: auth
+  - name: dashboard
+  - name: apiaries
+  - name: hives
+  - name: harvests
+  - name: batches
+  - name: quality
+  - name: processing
+  - name: supply-chain
+  - name: blockchain
+  - name: verification
+  - name: feedback
+  - name: analytics
+  - name: prediction
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,13 +36,950 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /auth/register:
+    post:
+      operationId: registerBeekeeper
+      tags: [auth]
+      summary: Register a beekeeper
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterInput"
+      responses:
+        "201":
+          description: Account created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+  /auth/login:
+    post:
+      operationId: loginBeekeeper
+      tags: [auth]
+      summary: Sign in as a beekeeper
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginInput"
+      responses:
+        "200":
+          description: Signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+  /auth/logout:
+    post:
+      operationId: logout
+      tags: [auth]
+      summary: Sign out
+      responses:
+        "204":
+          description: Signed out
+  /me:
+    get:
+      operationId: getMe
+      tags: [auth]
+      summary: Get the current user
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+  /dashboard:
+    get:
+      operationId: getDashboard
+      tags: [dashboard]
+      summary: Get beekeeper dashboard summary
+      responses:
+        "200":
+          description: Dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dashboard"
+  /apiaries:
+    get:
+      operationId: listApiaries
+      tags: [apiaries]
+      summary: List apiaries
+      responses:
+        "200":
+          description: Apiaries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Apiary"
+    post:
+      operationId: createApiary
+      tags: [apiaries]
+      summary: Add an apiary
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApiaryInput"
+      responses:
+        "201":
+          description: Created apiary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Apiary"
+  /apiaries/{apiaryId}:
+    get:
+      operationId: getApiary
+      tags: [apiaries]
+      summary: Get an apiary
+      parameters:
+        - $ref: "#/components/parameters/ApiaryId"
+      responses:
+        "200":
+          description: Apiary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Apiary"
+    patch:
+      operationId: updateApiary
+      tags: [apiaries]
+      summary: Update an apiary
+      parameters:
+        - $ref: "#/components/parameters/ApiaryId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApiaryUpdate"
+      responses:
+        "200":
+          description: Updated apiary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Apiary"
+  /hives:
+    get:
+      operationId: listHives
+      tags: [hives]
+      summary: List hives
+      responses:
+        "200":
+          description: Hives
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Hive"
+    post:
+      operationId: createHive
+      tags: [hives]
+      summary: Add a hive
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HiveInput"
+      responses:
+        "201":
+          description: Created hive
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Hive"
+  /hives/{hiveId}:
+    get:
+      operationId: getHive
+      tags: [hives]
+      summary: Get a hive
+      parameters:
+        - $ref: "#/components/parameters/HiveId"
+      responses:
+        "200":
+          description: Hive
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Hive"
+    patch:
+      operationId: updateHive
+      tags: [hives]
+      summary: Update a hive
+      parameters:
+        - $ref: "#/components/parameters/HiveId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HiveUpdate"
+      responses:
+        "200":
+          description: Updated hive
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Hive"
+  /inspections:
+    post:
+      operationId: createInspection
+      tags: [hives]
+      summary: Record a hive inspection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InspectionInput"
+      responses:
+        "201":
+          description: Created inspection
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Inspection"
+  /harvests:
+    get:
+      operationId: listHarvests
+      tags: [harvests]
+      summary: List harvest records
+      responses:
+        "200":
+          description: Harvests
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Harvest"
+    post:
+      operationId: createHarvest
+      tags: [harvests]
+      summary: Record a harvest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HarvestInput"
+      responses:
+        "201":
+          description: Created harvest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Harvest"
+  /batches:
+    get:
+      operationId: listBatches
+      tags: [batches]
+      summary: List honey batches
+      responses:
+        "200":
+          description: Batches
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/HoneyBatch"
+    post:
+      operationId: createBatch
+      tags: [batches]
+      summary: Create a honey batch from a harvest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BatchInput"
+      responses:
+        "201":
+          description: Created batch
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HoneyBatch"
+  /batches/{batchId}:
+    get:
+      operationId: getBatch
+      tags: [batches]
+      summary: Get a batch
+      parameters:
+        - $ref: "#/components/parameters/BatchId"
+      responses:
+        "200":
+          description: Batch
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HoneyPassport"
+  /batches/{batchId}/qr:
+    get:
+      operationId: getBatchQr
+      tags: [batches]
+      summary: Get a batch QR payload
+      parameters:
+        - $ref: "#/components/parameters/BatchId"
+      responses:
+        "200":
+          description: QR payload
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QrPayload"
+  /quality-tests:
+    post:
+      operationId: createQualityTest
+      tags: [quality]
+      summary: Verify the quality of a batch
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QualityTestInput"
+      responses:
+        "201":
+          description: Quality test
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QualityTest"
+  /processing:
+    post:
+      operationId: createProcessing
+      tags: [processing]
+      summary: Record processing and packaging
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProcessingInput"
+      responses:
+        "201":
+          description: Processing record
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Processing"
+  /supply-chain/events:
+    get:
+      operationId: listSupplyChainEvents
+      tags: [supply-chain]
+      summary: List supply-chain events
+      parameters:
+        - name: batchId
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Supply-chain events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SupplyChainEvent"
+    post:
+      operationId: createSupplyChainEvent
+      tags: [supply-chain]
+      summary: Add a supply-chain event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SupplyChainEventInput"
+      responses:
+        "201":
+          description: Supply-chain event
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SupplyChainEvent"
+  /blockchain:
+    get:
+      operationId: listBlockchainTransactions
+      tags: [blockchain]
+      summary: List append-only blockchain transactions
+      responses:
+        "200":
+          description: Blockchain transactions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BlockchainTransaction"
+  /blockchain/verify:
+    get:
+      operationId: verifyBlockchain
+      tags: [blockchain]
+      summary: Verify the entire hash chain
+      responses:
+        "200":
+          description: Chain verification result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChainVerification"
+  /blockchain/corrections:
+    post:
+      operationId: createCorrection
+      tags: [blockchain]
+      summary: Append a correction transaction without editing history
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CorrectionInput"
+      responses:
+        "201":
+          description: Correction transaction
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BlockchainTransaction"
+  /verify/{batchId}:
+    get:
+      operationId: verifyBatch
+      tags: [verification]
+      summary: Get a public Honey Passport
+      parameters:
+        - $ref: "#/components/parameters/BatchId"
+      responses:
+        "200":
+          description: Public Honey Passport
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HoneyPassport"
+  /feedback:
+    post:
+      operationId: createFeedback
+      tags: [feedback]
+      summary: Submit customer feedback
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FeedbackInput"
+      responses:
+        "201":
+          description: Feedback
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Feedback"
+  /analytics:
+    get:
+      operationId: getAnalytics
+      tags: [analytics]
+      summary: Get beekeeper analytics
+      responses:
+        "200":
+          description: Analytics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Analytics"
+  /predict-yield:
+    post:
+      operationId: predictYield
+      tags: [prediction]
+      summary: Predict expected honey yield
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/YieldPredictionInput"
+      responses:
+        "200":
+          description: Yield prediction
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/YieldPrediction"
 components:
+  parameters:
+    ApiaryId:
+      name: apiaryId
+      in: path
+      required: true
+      schema:
+        type: string
+    HiveId:
+      name: hiveId
+      in: path
+      required: true
+      schema:
+        type: string
+    BatchId:
+      name: batchId
+      in: path
+      required: true
+      schema:
+        type: string
   schemas:
     HealthStatus:
       type: object
+      required: [status]
       properties:
         status:
           type: string
-      required:
-        - status
-
+    User:
+      type: object
+      required: [id, name, email, role, location, apiaryName]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        email: { type: string, format: email }
+        role: { type: string, enum: [beekeeper, quality_officer, processor, distributor, customer, admin] }
+        phone: { type: string }
+        location: { type: string }
+        apiaryName: { type: string }
+        experience: { type: string }
+    RegisterInput:
+      type: object
+      required: [name, email, password, phone, location, apiaryName, experience]
+      properties:
+        name: { type: string, minLength: 2 }
+        email: { type: string, format: email }
+        password: { type: string, minLength: 8 }
+        phone: { type: string }
+        location: { type: string }
+        apiaryName: { type: string }
+        experience: { type: string }
+    LoginInput:
+      type: object
+      required: [email, password]
+      properties:
+        email: { type: string, format: email }
+        password: { type: string, minLength: 8 }
+    AuthResponse:
+      type: object
+      required: [user, message]
+      properties:
+        user: { $ref: "#/components/schemas/User" }
+        message: { type: string }
+    Dashboard:
+      type: object
+      required: [stats, recentActivity, notifications]
+      properties:
+        stats:
+          $ref: "#/components/schemas/DashboardStats"
+        recentActivity:
+          type: array
+          items: { $ref: "#/components/schemas/Activity" }
+        notifications:
+          type: array
+          items: { $ref: "#/components/schemas/Notification" }
+    DashboardStats:
+      type: object
+      required: [apiaries, hives, activeHives, batches, harvestKg, qualityTests, verifiedEvents]
+      properties:
+        apiaries: { type: integer }
+        hives: { type: integer }
+        activeHives: { type: integer }
+        batches: { type: integer }
+        harvestKg: { type: number }
+        qualityTests: { type: integer }
+        verifiedEvents: { type: integer }
+    Activity:
+      type: object
+      required: [id, title, description, timestamp, type]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        description: { type: string }
+        timestamp: { type: string }
+        type: { type: string }
+    Notification:
+      type: object
+      required: [id, title, message, time, unread]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        message: { type: string }
+        time: { type: string }
+        unread: { type: boolean }
+    Apiary:
+      type: object
+      required: [id, name, location, beeSpecies, hiveCount, floralSources, status]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        location: { type: string }
+        latitude: { type: number }
+        longitude: { type: number }
+        beeSpecies: { type: string }
+        hiveCount: { type: integer }
+        floralSources:
+          type: array
+          items: { type: string }
+        notes: { type: string }
+        status: { type: string }
+    ApiaryInput:
+      type: object
+      required: [name, location, beeSpecies, hiveCount, floralSources]
+      properties:
+        name: { type: string }
+        location: { type: string }
+        latitude: { type: number }
+        longitude: { type: number }
+        beeSpecies: { type: string }
+        hiveCount: { type: integer, minimum: 0 }
+        floralSources:
+          type: array
+          items: { type: string }
+        notes: { type: string }
+    ApiaryUpdate:
+      allOf:
+        - $ref: "#/components/schemas/ApiaryInput"
+    Hive:
+      type: object
+      required: [id, name, apiaryId, apiaryName, beeSpecies, frames, queenAge, strength, health, dateAdded]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        apiaryId: { type: string }
+        apiaryName: { type: string }
+        beeSpecies: { type: string }
+        frames: { type: integer }
+        queenAge: { type: integer }
+        strength: { type: string }
+        health: { type: string }
+        dateAdded: { type: string }
+        lastInspection: { type: string }
+        productionKg: { type: number }
+    HiveInput:
+      type: object
+      required: [name, apiaryId, beeSpecies, frames, queenAge, strength, health, dateAdded]
+      properties:
+        name: { type: string }
+        apiaryId: { type: string }
+        beeSpecies: { type: string }
+        frames: { type: integer, minimum: 0 }
+        queenAge: { type: integer, minimum: 0 }
+        strength: { type: string }
+        health: { type: string }
+        dateAdded: { type: string }
+    HiveUpdate:
+      allOf:
+        - $ref: "#/components/schemas/HiveInput"
+    Inspection:
+      type: object
+      required: [id, hiveId, inspectionDate, colonyCondition, colonyStrength, notes]
+      properties:
+        id: { type: string }
+        hiveId: { type: string }
+        inspectionDate: { type: string }
+        temperature: { type: number }
+        humidity: { type: number }
+        colonyCondition: { type: string }
+        colonyStrength: { type: string }
+        pestObservation: { type: string }
+        treatment: { type: string }
+        notes: { type: string }
+    InspectionInput:
+      type: object
+      required: [hiveId, inspectionDate, colonyCondition, colonyStrength, notes]
+      properties:
+        hiveId: { type: string }
+        inspectionDate: { type: string }
+        temperature: { type: number }
+        humidity: { type: number }
+        colonyCondition: { type: string }
+        colonyStrength: { type: string }
+        pestObservation: { type: string }
+        treatment: { type: string }
+        notes: { type: string }
+    Harvest:
+      type: object
+      required: [id, hiveId, hiveName, harvestDate, quantityKg, floralSource, weather, blockchainTxId]
+      properties:
+        id: { type: string }
+        hiveId: { type: string }
+        hiveName: { type: string }
+        harvestDate: { type: string }
+        quantityKg: { type: number }
+        floralSource: { type: string }
+        weather: { type: string }
+        notes: { type: string }
+        blockchainTxId: { type: string }
+    HarvestInput:
+      type: object
+      required: [hiveId, harvestDate, quantityKg, floralSource, weather]
+      properties:
+        hiveId: { type: string }
+        harvestDate: { type: string }
+        quantityKg: { type: number, minimum: 0 }
+        floralSource: { type: string }
+        weather: { type: string }
+        notes: { type: string }
+    HoneyBatch:
+      type: object
+      required: [id, harvestId, hiveId, apiaryName, harvestDate, quantityKg, floralSource, status, blockchainStatus]
+      properties:
+        id: { type: string }
+        harvestId: { type: string }
+        hiveId: { type: string }
+        apiaryName: { type: string }
+        location: { type: string }
+        beeSpecies: { type: string }
+        harvestDate: { type: string }
+        quantityKg: { type: number }
+        floralSource: { type: string }
+        status: { type: string }
+        blockchainStatus: { type: string }
+    BatchInput:
+      type: object
+      required: [harvestId]
+      properties:
+        harvestId: { type: string }
+    QualityTest:
+      type: object
+      required: [id, batchId, moisture, hmf, diastase, ph, sugarContent, purityStatus, laboratory, testDate, blockchainTxId]
+      properties:
+        id: { type: string }
+        batchId: { type: string }
+        moisture: { type: number }
+        hmf: { type: number }
+        diastase: { type: number }
+        ph: { type: number }
+        sugarContent: { type: number }
+        purityStatus: { type: string }
+        laboratory: { type: string }
+        testDate: { type: string }
+        certificateUrl: { type: string }
+        blockchainTxId: { type: string }
+    QualityTestInput:
+      type: object
+      required: [batchId, moisture, hmf, diastase, ph, sugarContent, purityStatus, laboratory, testDate]
+      properties:
+        batchId: { type: string }
+        moisture: { type: number }
+        hmf: { type: number }
+        diastase: { type: number }
+        ph: { type: number }
+        sugarContent: { type: number }
+        purityStatus: { type: string }
+        laboratory: { type: string }
+        testDate: { type: string }
+        certificateUrl: { type: string }
+    Processing:
+      type: object
+      required: [id, batchId, processingDate, method, packaging, netWeightKg, packageDate, expiryDate, blockchainTxId]
+      properties:
+        id: { type: string }
+        batchId: { type: string }
+        processingDate: { type: string }
+        method: { type: string }
+        packaging: { type: string }
+        netWeightKg: { type: number }
+        packageDate: { type: string }
+        expiryDate: { type: string }
+        blockchainTxId: { type: string }
+    ProcessingInput:
+      type: object
+      required: [batchId, processingDate, method, packaging, netWeightKg, packageDate, expiryDate]
+      properties:
+        batchId: { type: string }
+        processingDate: { type: string }
+        method: { type: string }
+        packaging: { type: string }
+        netWeightKg: { type: number }
+        packageDate: { type: string }
+        expiryDate: { type: string }
+    SupplyChainEvent:
+      type: object
+      required: [id, batchId, eventType, location, date, status, blockchainTxId]
+      properties:
+        id: { type: string }
+        batchId: { type: string }
+        eventType: { type: string }
+        from: { type: string }
+        to: { type: string }
+        location: { type: string }
+        date: { type: string }
+        transportMethod: { type: string }
+        status: { type: string }
+        notes: { type: string }
+        blockchainTxId: { type: string }
+    SupplyChainEventInput:
+      type: object
+      required: [batchId, eventType, location, date, status]
+      properties:
+        batchId: { type: string }
+        eventType: { type: string }
+        from: { type: string }
+        to: { type: string }
+        location: { type: string }
+        date: { type: string }
+        transportMethod: { type: string }
+        status: { type: string }
+        notes: { type: string }
+    BlockchainTransaction:
+      type: object
+      required: [index, transactionId, batchId, eventType, timestamp, dataHash, previousHash, currentHash, actor, status]
+      properties:
+        index: { type: integer }
+        transactionId: { type: string }
+        batchId: { type: string }
+        eventType: { type: string }
+        timestamp: { type: string }
+        dataHash: { type: string }
+        previousHash: { type: string }
+        currentHash: { type: string }
+        actor: { type: string }
+        status: { type: string }
+    ChainVerification:
+      type: object
+      required: [valid, checkedBlocks, message, checkedAt]
+      properties:
+        valid: { type: boolean }
+        checkedBlocks: { type: integer }
+        message: { type: string }
+        checkedAt: { type: string }
+    CorrectionInput:
+      type: object
+      required: [originalTransactionId, batchId, oldValue, newValue, reason]
+      properties:
+        originalTransactionId: { type: string }
+        batchId: { type: string }
+        oldValue: { type: string }
+        newValue: { type: string }
+        reason: { type: string }
+    QrPayload:
+      type: object
+      required: [batchId, verificationPath, qrData]
+      properties:
+        batchId: { type: string }
+        verificationPath: { type: string }
+        qrData: { type: string }
+    HoneyPassport:
+      type: object
+      required: [batch, origin, harvest, quality, processing, supplyChain, blockchainVerified, feedback]
+      properties:
+        batch: { $ref: "#/components/schemas/HoneyBatch" }
+        origin:
+          type: object
+          required: [apiary, location, beeSpecies, floralSource]
+          properties:
+            apiary: { type: string }
+            location: { type: string }
+            beeSpecies: { type: string }
+            floralSource: { type: string }
+        harvest: { $ref: "#/components/schemas/Harvest" }
+        quality: { $ref: "#/components/schemas/QualityTest" }
+        processing: { $ref: "#/components/schemas/Processing" }
+        supplyChain:
+          type: array
+          items: { $ref: "#/components/schemas/SupplyChainEvent" }
+        blockchainVerified: { type: boolean }
+        feedback:
+          type: array
+          items: { $ref: "#/components/schemas/Feedback" }
+    Feedback:
+      type: object
+      required: [id, batchId, overallRating, tasteRating, qualityRating, packagingRating, comment, submittedAt]
+      properties:
+        id: { type: string }
+        batchId: { type: string }
+        overallRating: { type: integer, minimum: 1, maximum: 5 }
+        tasteRating: { type: integer, minimum: 1, maximum: 5 }
+        qualityRating: { type: integer, minimum: 1, maximum: 5 }
+        packagingRating: { type: integer, minimum: 1, maximum: 5 }
+        comment: { type: string }
+        submittedAt: { type: string }
+    FeedbackInput:
+      type: object
+      required: [batchId, overallRating, tasteRating, qualityRating, packagingRating, comment]
+      properties:
+        batchId: { type: string }
+        overallRating: { type: integer, minimum: 1, maximum: 5 }
+        tasteRating: { type: integer, minimum: 1, maximum: 5 }
+        qualityRating: { type: integer, minimum: 1, maximum: 5 }
+        packagingRating: { type: integer, minimum: 1, maximum: 5 }
+        comment: { type: string }
+    Analytics:
+      type: object
+      required: [monthlyProduction, hiveProduction, floralProduction, batchStatus, qualityStatus]
+      properties:
+        monthlyProduction:
+          type: array
+          items:
+            type: object
+            required: [month, quantityKg]
+            properties:
+              month: { type: string }
+              quantityKg: { type: number }
+        hiveProduction:
+          type: array
+          items:
+            type: object
+            required: [hive, quantityKg]
+            properties:
+              hive: { type: string }
+              quantityKg: { type: number }
+        floralProduction:
+          type: array
+          items:
+            type: object
+            required: [source, quantityKg]
+            properties:
+              source: { type: string }
+              quantityKg: { type: number }
+        batchStatus:
+          type: array
+          items:
+            type: object
+            required: [status, count]
+            properties:
+              status: { type: string }
+              count: { type: integer }
+        qualityStatus:
+          type: array
+          items:
+            type: object
+            required: [status, count]
+            properties:
+              status: { type: string }
+              count: { type: integer }
+    YieldPredictionInput:
+      type: object
+      required: [previousYield, colonyStrength, temperature, humidity, rainfall, season, floralSource]
+      properties:
+        previousYield: { type: number }
+        colonyStrength: { type: number }
+        temperature: { type: number }
+        humidity: { type: number }
+        rainfall: { type: number }
+        season: { type: string }
+        floralSource: { type: string }
+    YieldPrediction:
+      type: object
+      required: [predictedYieldKg, confidence, label]
+      properties:
+        predictedYieldKg: { type: number }
+        confidence: { type: number }
+        label: { type: string }

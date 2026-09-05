@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Honey Chain"
+description = "A honey traceability and smart beekeeping web application that helps beekeepers manage apiaries, record harvests, verify tamper-evident supply-chain events, and gives customers a transparent Honey Passport for every batch."
+version = "1.0.0"
+id = "artifacts/honey-chain"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24564
+
+[services.development]
+run = "pnpm --filter @workspace/honey-chain run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/honey-chain", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/honey-chain/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24564"
+BASE_PATH = "/"
