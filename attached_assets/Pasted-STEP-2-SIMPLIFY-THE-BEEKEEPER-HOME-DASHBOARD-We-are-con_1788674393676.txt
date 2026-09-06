@@ -1,0 +1,127 @@
+STEP 2 — SIMPLIFY THE BEEKEEPER HOME/DASHBOARD
+
+We are continuing to modify the EXISTING Honey Chain MVP.
+
+STEP 1 authentication is already working correctly. DO NOT change the authentication, login, registration, or logout logic.
+
+The current dashboard is too technical for a rural beekeeper. Redesign ONLY the main beekeeper dashboard/home to make it extremely simple and easy to understand.
+
+IMPORTANT:
+- Do NOT rebuild the project.
+- Do NOT delete existing functionality.
+- Do NOT change the authentication system.
+- Do NOT implement blockchain, QR, AI, IoT, or language functionality yet.
+- Preserve the existing Honey Chain visual style, branding, colors, typography, and overall design.
+
+NEW BEEKEEPER HOME:
+
+After a beekeeper logs in, the main dashboard should show:
+
+Header:
+"Welcome, [beekeeper's actual name] 👋"
+
+Subtitle:
+"Manage your beekeeping in a few simple steps."
+
+Then show 4 large, clear action cards/buttons:
+
+1. 🐝 MY HIVES
+Text:
+"Add and manage your bee hives."
+
+Clicking it should open the existing Hive Monitoring/Hives functionality.
+
+2. 🍯 REGISTER HONEY
+Text:
+"Register a newly harvested honey batch."
+
+Clicking it should open the existing Honey Batches functionality.
+
+3. 📱 MY QR CODES
+Text:
+"View QR codes for your registered honey."
+
+For now, connect this to the existing appropriate QR/batch page if one exists. Do NOT create fake QR codes.
+
+4. 🔔 ALERTS
+Text:
+"See important hive warnings and updates."
+
+If the existing alert functionality is not implemented yet, show an appropriate empty state such as:
+"No new alerts."
+
+DO NOT show fake alerts.
+
+DASHBOARD SUMMARY:
+
+Instead of making the beekeeper focus on technical sensor cards, show a simple summary:
+
+🐝 My Hives: 0
+🍯 Honey Batches: 0
+📱 QR Codes: 0
+🔔 Alerts: 0
+
+These numbers must come from the existing application data/state where possible.
+
+If there is no data, show 0 rather than fake data.
+
+REMOVE THE TECHNICAL FEEL FROM THE MAIN HOME:
+
+The current main dashboard contains cards such as:
+- Temperature
+- Humidity
+- Hive Weight
+- Bee Activity
+- Overall Health
+- Blockchain Verified
+
+Do NOT delete the underlying functionality.
+
+Instead, move these technical monitoring details out of the main beekeeper home and keep them accessible through Hive Monitoring or the appropriate existing module.
+
+The beekeeper's home should NOT require them to understand:
+- blockchain
+- hashes
+- IoT sensors
+- AI models
+- technical analytics
+
+Those technologies should work behind the scenes.
+
+SIDEBAR:
+
+Keep the existing sidebar/navigation structure, but make the beekeeper-facing labels simple and clear.
+
+Preferred navigation:
+
+Dashboard
+My Hives
+Register Honey
+My QR Codes
+Alerts
+
+If existing technical routes such as Traceability, Verify Honey, or Hive Monitoring are needed by the system, do NOT delete them. Keep them accessible where appropriate.
+
+IMPORTANT:
+Do not break the existing Customer View.
+
+Do not change the working Login/Logout functionality from Step 1.
+
+TEST:
+
+1. Log in as a beekeeper.
+2. Dashboard opens normally.
+3. Dashboard displays the actual logged-in beekeeper's name.
+4. Dashboard is simple and understandable.
+5. My Hives opens the existing hive functionality.
+6. Register Honey opens the existing honey batch functionality.
+7. My QR Codes does not display fake QR codes.
+8. Alerts does not display fake alerts.
+9. Logout still works exactly as it did after Step 1.
+10. Direct access protection for /dashboard still works.
+
+After completing the work, tell me:
+- Which files were changed.
+- What was changed on the beekeeper home.
+- Confirm that authentication and logout were not modified.
+- Confirm that no fake beekeeper, hive, honey batch, QR code, or alert data was added.

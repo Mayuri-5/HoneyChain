@@ -7,6 +7,7 @@ import { AuthProvider, useAuth } from '@/lib/auth';
 import NotFound from '@/pages/not-found';
 import {
   AnalyticsPage,
+  AlertsPage,
   ApiariesPage,
   BatchDetailPage,
   BatchesPage,
@@ -19,6 +20,7 @@ import {
   PredictPage,
   ProcessingPage,
   ProfilePage,
+  QrCodesPage,
   QualityPage,
   SupplyChainPage,
   VerifyPage,
@@ -58,6 +60,8 @@ function Router() {
         <Route path="/harvest" component={HarvestPage} />
         <Route path="/batches" component={BatchesPage} />
         <Route path="/batches/:batchId" component={BatchDetailPage} />
+        <Route path="/qr-codes" component={QrCodesPage} />
+        <Route path="/alerts" component={AlertsPage} />
         <Route path="/quality" component={QualityPage} />
         <Route path="/processing" component={ProcessingPage} />
         <Route path="/supply-chain" component={SupplyChainPage} />

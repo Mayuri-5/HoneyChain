@@ -7,10 +7,10 @@ import { useAuth } from '@/lib/auth';
 
 const primaryNav = [
   { href: '/dashboard', label: 'Dashboard', icon: Home },
-  { href: '/hives', label: 'Hive Monitoring', icon: Hexagon },
-  { href: '/batches', label: 'Honey Batches', icon: Boxes },
-  { href: '/blockchain', label: 'Traceability', icon: Blocks },
-  { href: '/verify/demo', label: 'Verify Honey', icon: ScanLine },
+  { href: '/hives', label: 'My Hives', icon: Hexagon },
+  { href: '/batches', label: 'Register Honey', icon: Boxes },
+  { href: '/qr-codes', label: 'My QR Codes', icon: ScanLine },
+  { href: '/alerts', label: 'Alerts', icon: Bell },
 ];
 
 export function BrandMark({ compact = false }: { compact?: boolean }) {
@@ -75,7 +75,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
         <div className="flex items-center gap-2.5">
           <Link href="/verify/demo" className="hidden items-center gap-2 rounded-xl border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground transition hover:border-primary sm:flex" data-testid="link-customer-passport"><ScanLine className="size-4 text-primary" />Customer view</Link>
-          <button type="button" className="relative rounded-xl border border-border bg-card p-2.5 text-muted-foreground transition hover:text-foreground" data-testid="button-notifications"><Bell className="size-[17px]" /><span className="absolute right-2 top-2 size-1.5 rounded-full bg-primary" /></button>
+          <Link href="/alerts" className="rounded-xl border border-border bg-card p-2.5 text-muted-foreground transition hover:text-foreground" data-testid="button-notifications"><Bell className="size-[17px]" /></Link>
           <div className="hidden h-7 w-px bg-border sm:block" />
           <div className="flex items-center gap-2" data-testid="header-keeper">
             <span className="grid size-8 place-items-center rounded-full bg-secondary text-xs font-bold text-secondary-foreground">{(user?.name ?? 'BK').split(' ').map((x) => x[0]).slice(0, 2).join('')}</span>
