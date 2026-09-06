@@ -1,6 +1,4 @@
 import { createHash, randomUUID } from "node:crypto";
-import { eq } from "drizzle-orm";
-import { db, honeyAppStateTable } from "@workspace/db";
 
 export type UserRecord = {
   id: string;
@@ -327,38 +325,8 @@ export function nextId(prefix: string): string {
 }
 
 async function persistStore(): Promise<void> {
-  await db
-    .insert(honeyAppStateTable)
-    .values({ id: STATE_ID, payload: store })
-    .onConflictDoUpdate({
-      target: honeyAppStateTable.id,
-      set: { payload: store, updatedAt: new Date() },
-    });
+  // Prototype mode: data is kept in memory.
+  // Database persistence can be added later for production deployment.
 }
-
-async function hydrateStore(): Promise<void> {
-  const [saved] = await db
-    .select()
-    .from(honeyAppStateTable)
-    .where(eq(honeyAppStateTable.id, STATE_ID));
-  const payload = saved?.payload;
-  if (payload && typeof payload === "object" && !Array.isArray(payload)) {
-    const snapshot = payload as Partial<typeof store>;
-    if (snapshot.user) store.user = snapshot.user;
-    if (snapshot.apiaries) store.apiaries = snapshot.apiaries;
-    if (snapshot.hives) store.hives = snapshot.hives;
-    if (snapshot.harvests) store.harvests = snapshot.harvests;
-    if (snapshot.batches) store.batches = snapshot.batches;
-    if (snapshot.quality) store.quality = snapshot.quality;
-    if (snapshot.processing) store.processing = snapshot.processing;
-    if (snapshot.supply) store.supply = snapshot.supply;
-    if (snapshot.feedback) store.feedback = snapshot.feedback;
-    if (snapshot.blockchain) store.blockchain = snapshot.blockchain;
-    return;
-  }
-  await persistStore();
-}
-
-await hydrateStore();
 
 export { persistStore };

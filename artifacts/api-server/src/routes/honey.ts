@@ -68,6 +68,7 @@ import {
   store,
   verifyChain,
   type ApiaryRecord,
+  type HarvestRecord,
   type HiveRecord,
 } from "../lib/honey-store";
 

@@ -8,6 +8,7 @@ import { t } from '@/lib/i18n';
 
 const primaryNav = [
   { href: '/dashboard', label: 'Dashboard', icon: Home },
+  { href: '/apiaries', label: 'Apiaries', icon: Hexagon },
   { href: '/hives', label: 'My Hives', icon: Hexagon },
   { href: '/batches', label: 'Register Honey', icon: Boxes },
   { href: '/qr-codes', label: 'My QR Codes', icon: ScanLine },
