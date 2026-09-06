@@ -132,110 +132,20 @@ export type FeedbackRecord = {
   submittedAt: string;
 };
 
-const DEMO_USER_ID = "demo-beekeeper";
-
 export const store = {
-  user: {
-    id: DEMO_USER_ID,
-    name: "Rajesh Patil",
-    email: "rajesh@honeychain.demo",
-    role: "beekeeper" as const,
-    phone: "+91 98765 43210",
-    location: "Dhule, Maharashtra",
-    apiaryName: "Green Valley Apiary",
-    experience: "8 years",
-  } satisfies UserRecord,
-  apiaries: [
-    {
-      id: "APIARY-001",
-      name: "Green Valley Apiary",
-      location: "Dhule, Maharashtra",
-      latitude: 20.9,
-      longitude: 74.78,
-      beeSpecies: "Apis mellifera",
-      hiveCount: 24,
-      floralSources: ["Sunflower", "Mustard", "Neem"],
-      notes: "South-facing slope with reliable water access.",
-      status: "Active",
-    },
-    {
-      id: "APIARY-002",
-      name: "Riverbend Hives",
-      location: "Nashik, Maharashtra",
-      latitude: 20.01,
-      longitude: 73.79,
-      beeSpecies: "Apis cerana",
-      hiveCount: 12,
-      floralSources: ["Citrus", "Wildflower"],
-      notes: "Seasonal outpost near the river.",
-      status: "Seasonal",
-    },
-  ] as ApiaryRecord[],
-  hives: [
-    {
-      id: "HIVE-001",
-      name: "Sunrise 01",
-      apiaryId: "APIARY-001",
-      apiaryName: "Green Valley Apiary",
-      beeSpecies: "Apis mellifera",
-      frames: 10,
-      queenAge: 14,
-      strength: "Strong",
-      health: "Healthy",
-      dateAdded: "2024-02-18",
-      lastInspection: "2026-08-28",
-      productionKg: 36.4,
-    },
-    {
-      id: "HIVE-002",
-      name: "Sunrise 02",
-      apiaryId: "APIARY-001",
-      apiaryName: "Green Valley Apiary",
-      beeSpecies: "Apis mellifera",
-      frames: 9,
-      queenAge: 21,
-      strength: "Good",
-      health: "Healthy",
-      dateAdded: "2024-03-04",
-      lastInspection: "2026-08-27",
-      productionKg: 28.8,
-    },
-    {
-      id: "HIVE-003",
-      name: "Riverbend 01",
-      apiaryId: "APIARY-002",
-      apiaryName: "Riverbend Hives",
-      beeSpecies: "Apis cerana",
-      frames: 8,
-      queenAge: 11,
-      strength: "Moderate",
-      health: "Monitor",
-      dateAdded: "2025-01-20",
-      lastInspection: "2026-08-24",
-      productionKg: 19.2,
-    },
-  ] as HiveRecord[],
+  user: null as UserRecord | null,
+  apiaries: [] as ApiaryRecord[],
+  hives: [] as HiveRecord[],
   harvests: [] as HarvestRecord[],
   batches: [] as BatchRecord[],
   quality: [] as QualityRecord[],
   processing: [] as ProcessingRecord[],
   supply: [] as SupplyRecord[],
-  feedback: [
-    {
-      id: "FB-001",
-      batchId: "HC2026-000001",
-      overallRating: 5,
-      tasteRating: 5,
-      qualityRating: 5,
-      packagingRating: 4,
-      comment: "Bright, floral finish and a beautiful jar.",
-      submittedAt: "2026-08-31T14:30:00.000Z",
-    },
-  ] satisfies FeedbackRecord[],
+  feedback: [] as FeedbackRecord[],
   blockchain: [] as BlockchainRecord[],
 };
 
-const STATE_ID = "honey-chain-demo";
+const STATE_ID = "honey-chain-auth-prototype";
 
 function sha256(value: string): string {
   return createHash("sha256").update(value).digest("hex");
@@ -245,7 +155,7 @@ export function addBlock(
   batchId: string,
   eventType: string,
   data: unknown,
-  actor = DEMO_USER_ID,
+  actor = "system",
 ): BlockchainRecord {
   const previousHash = store.blockchain.at(-1)?.currentHash ?? "GENESIS";
   const index = store.blockchain.length + 1;
@@ -385,8 +295,6 @@ function seedDemoChain(): void {
     store.supply.push(event);
   }
 }
-
-seedDemoChain();
 
 export function getPassport(batchId: string) {
   const batch = store.batches.find((item) => item.id === batchId);

@@ -1,0 +1,82 @@
+I am building an SIH 2026 prototype for:
+
+"Honey Chain: A blockchain-based system for honey traceability and smart beekeeping management."
+
+This is an existing working project that I remixed. I want to simplify it, NOT rebuild it.
+
+IMPORTANT RULES:
+1. Do NOT delete the existing backend, database, API, blockchain logic, QR functionality, AI logic, IoT/sensor logic, or authentication.
+2. Do NOT change the database schema.
+3. Do NOT introduce new frameworks or libraries.
+4. Do NOT create unnecessary new features.
+5. Reuse the existing components and data wherever possible.
+6. Make only the changes requested below.
+7. Before finishing, make sure the application still runs without errors.
+
+SIMPLIFY THE MAIN NAVIGATION.
+
+The main navigation should contain ONLY:
+
+1. Dashboard
+2. Hive Monitoring
+3. Honey Batches
+4. Traceability
+5. Verify Honey
+
+Hide the following from the main navigation:
+- Apiaries
+- Harvest
+- Quality Testing
+- Processing
+- Supply Chain
+- Analytics
+- Profile
+- Any other unnecessary navigation items
+
+IMPORTANT:
+Do NOT delete these modules or their code. Only hide/remove them from the main navigation because we may reuse their functionality later.
+
+DASHBOARD:
+
+Redesign the Dashboard to be simple and suitable for an SIH judging/demo presentation.
+
+At the top show four simple summary cards:
+
+- Total Hives
+- Active Honey Batches
+- Honey Production
+- Blockchain Verified
+
+Below that, show a simple "Hive Health" section containing:
+
+- Temperature
+- Humidity
+- Hive Weight
+- Bee Activity
+- Overall Health
+
+Use the existing project data where available.
+
+The Dashboard should NOT contain too many charts, cards, statistics, technical blockchain fields, or complicated information.
+
+DESIGN:
+
+Keep the existing visual style where possible, but make the interface:
+- clean
+- simple
+- professional
+- easy for a judge to understand
+- suitable for a college hackathon prototype
+- responsive
+
+The main idea should be immediately understandable:
+
+Beekeeper → Hive Monitoring → Honey Batch → Blockchain Traceability → Consumer Verification
+
+Do not implement the other pages yet.
+
+After completing this task:
+1. Run/typecheck the project.
+2. Fix only errors caused by these changes.
+3. Tell me exactly which files you modified.
+4. Do not make additional changes beyond this request.

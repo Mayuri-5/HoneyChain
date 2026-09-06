@@ -1,0 +1,142 @@
+Fix the Honey Chain authentication and logout system completely.
+
+CURRENT PROBLEM:
+The app opens directly at /dashboard with a pre-logged-in beekeeper named "Rajesh Patil". The Logout icon/button at the top-right also does not work.
+
+REQUIRED FIX:
+
+1. REMOVE AUTOMATIC LOGIN
+- The app must NOT automatically log in Rajesh Patil.
+- Remove any hard-coded default authenticated user.
+- Remove any code that automatically sets the user as logged in when the application starts.
+
+2. LOGIN / REGISTER MUST BE THE STARTING PAGE
+When a user opens the Honey Chain website:
+→ Show Login/Register page.
+→ Do not show the Dashboard until the user has authenticated.
+
+3. REGISTER BEEKEEPER
+Create a simple prototype registration form with:
+- Name
+- Email
+- Phone
+- Location
+- Password
+
+After successful registration:
+→ save the prototype user data locally
+→ redirect to Login
+→ user must log in.
+
+4. LOGIN
+Allow the registered beekeeper to log in.
+
+After successful login:
+→ save an authenticated session/state
+→ redirect to /dashboard.
+
+5. DASHBOARD USER NAME
+The dashboard currently shows "Rajesh Patil".
+
+Replace this hard-coded name with the name of the currently logged-in beekeeper.
+
+6. FIX LOGOUT
+The existing logout icon/button in the top-right MUST work.
+
+When clicked:
+→ clear the authenticated user/session from localStorage/session state
+→ clear any current-user state
+→ redirect to /login
+→ do not leave the user on /dashboard.
+
+7. PROTECT DASHBOARD
+If someone directly enters:
+
+/dashboard
+
+while not logged in:
+→ redirect them to /login.
+
+Do the same for all beekeeper-only pages:
+- /dashboard
+- /hive-monitoring
+- /honey-batches
+- /traceability
+- any other authenticated beekeeper route.
+
+8. PREVENT AUTO-LOGIN AFTER LOGOUT
+This is critical.
+
+Test:
+Login → Dashboard → Logout → Login page → Refresh browser.
+
+The user MUST still be logged out.
+
+Do NOT recreate the previous user automatically.
+
+9. NO DEFAULT DEMO DATA
+Do not display Rajesh Patil as an already registered beekeeper.
+
+Do not display fake honey batches as registered by default.
+
+The system should start empty for a new user.
+
+10. KEEP THE CURRENT DESIGN
+Do NOT redesign the Honey Chain dashboard.
+
+Keep the existing:
+- Honey Chain branding
+- sidebar
+- Dashboard
+- Hive Monitoring
+- Honey Batches
+- Traceability
+- Verify Honey
+- Customer View
+- existing visual styling.
+
+Only fix/add the authentication flow.
+
+11. IMPORTANT IMPLEMENTATION REQUIREMENT
+Inspect the existing authentication/session/localStorage code before making changes.
+
+Find exactly why:
+- Rajesh Patil is automatically logged in
+- Logout currently does nothing
+
+Fix the underlying logic rather than simply hiding the dashboard or logout button.
+
+12. TEST ALL OF THESE BEFORE FINISHING:
+
+TEST A:
+Open website
+→ Login/Register appears.
+
+TEST B:
+Register new beekeeper
+→ registration succeeds
+→ Login page appears.
+
+TEST C:
+Login
+→ Dashboard appears
+→ logged-in user's name appears.
+
+TEST D:
+Click Logout
+→ session is cleared
+→ Login page appears.
+
+TEST E:
+After logout, manually open /dashboard
+→ redirected to Login.
+
+TEST F:
+After logout, refresh browser
+→ still Login page.
+
+TEST G:
+Login again
+→ Dashboard works normally.
+
+Do not stop after changing the UI. Verify that the actual authentication state and logout functionality work.

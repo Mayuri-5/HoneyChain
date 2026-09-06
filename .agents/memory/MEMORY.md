@@ -1,1 +1,1 @@
-- [Honey Chain environment](honey-chain-environment.md) — PostgreSQL + Clerk are the supported runtime choices; persist the MVP snapshot and keep the proof ledger append-only.
+- [Honey Chain environment](honey-chain-environment.md) — PostgreSQL persists the MVP snapshot; prototype auth is local browser state and the proof ledger stays append-only.

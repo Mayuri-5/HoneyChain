@@ -74,7 +74,7 @@ import {
 const router: IRouter = Router();
 
 function currentActor(req: Parameters<typeof router.get>[1] extends never ? never : any): string {
-  return getAuth(req).userId ?? "demo-beekeeper";
+  return getAuth(req).userId ?? "system";
 }
 
 router.post("/auth/register", (req, res): void => {
@@ -83,7 +83,14 @@ router.post("/auth/register", (req, res): void => {
     res.status(400).json({ error: parsed.error.message });
     return;
   }
-  const response = { user: { ...store.user, ...parsed.data }, message: "Account created" };
+  const response = {
+    user: {
+      id: nextId("USER"),
+      role: "beekeeper" as const,
+      ...parsed.data,
+    },
+    message: "Account created",
+  };
   res.status(201).json(RegisterBeekeeperResponse.parse(response));
 });
 
@@ -93,7 +100,7 @@ router.post("/auth/login", (req, res): void => {
     res.status(400).json({ error: parsed.error.message });
     return;
   }
-  res.json(LoginBeekeeperResponse.parse({ user: store.user, message: "Welcome back to Honey Chain" }));
+  res.status(401).json({ error: "Prototype login is handled by the browser session." });
 });
 
 router.post("/auth/logout", (_req, res): void => {
@@ -101,6 +108,11 @@ router.post("/auth/logout", (_req, res): void => {
 });
 
 router.get("/me", (req, res): void => {
+  const userId = getAuth(req).userId;
+  if (!userId || !store.user) {
+    res.status(401).json({ error: "Unauthorized" });
+    return;
+  }
   res.json(GetMeResponse.parse(store.user));
 });
 
@@ -117,15 +129,8 @@ router.get("/dashboard", (_req, res): void => {
   res.json(
     GetDashboardResponse.parse({
       stats,
-      recentActivity: [
-        { id: "activity-1", title: "Batch delivered", description: "HC2026-000001 reached Pune", timestamp: "2 hours ago", type: "success" },
-        { id: "activity-2", title: "Quality verified", description: "Demo Lab approved the latest sample", timestamp: "Yesterday", type: "quality" },
-        { id: "activity-3", title: "Harvest recorded", description: "12 kg from Sunrise 01", timestamp: "2 days ago", type: "harvest" },
-      ],
-      notifications: [
-        { id: "notification-1", title: "Inspection due", message: "Riverbend 01 is ready for its next inspection.", time: "Today", unread: true },
-        { id: "notification-2", title: "Passport scanned", message: "Your batch passport was viewed by a customer.", time: "Yesterday", unread: false },
-      ],
+      recentActivity: [],
+      notifications: [],
     }),
   );
 });
