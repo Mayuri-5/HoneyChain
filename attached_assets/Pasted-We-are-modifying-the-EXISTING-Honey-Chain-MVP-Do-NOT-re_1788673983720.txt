@@ -1,0 +1,126 @@
+We are modifying the EXISTING Honey Chain MVP. Do NOT rebuild the project from scratch and do NOT redesign the existing dashboard.
+
+STEP 1 — FIX AUTHENTICATION AND LOGOUT
+
+Current problems:
+1. The website opens directly on the dashboard.
+2. A beekeeper named "Rajesh Patil" is already logged in automatically.
+3. The Logout button/icon does not work.
+4. The dashboard can be accessed without proper login.
+
+Please inspect the existing code and fix the underlying authentication/session logic.
+
+REQUIREMENTS:
+
+1. STARTING PAGE
+When the website is opened by a logged-out user, show a Login/Register page instead of the dashboard.
+
+2. REMOVE AUTOMATIC LOGIN
+Remove any hard-coded/default authentication that automatically logs in "Rajesh Patil".
+Do not automatically create or authenticate any beekeeper.
+
+3. LOGIN
+Keep or create a simple prototype Login form.
+It should allow a registered beekeeper to log in.
+
+4. REGISTER
+Keep or create a simple Register as Beekeeper form with:
+- Name
+- Email
+- Phone
+- Location
+- Password
+
+For this MVP, localStorage is acceptable if there is no real backend authentication.
+
+5. SESSION
+After successful login:
+- store the authenticated user's session/state
+- redirect to the existing dashboard.
+
+6. USER NAME
+The dashboard must display the actual logged-in beekeeper's name.
+Do NOT hard-code "Rajesh Patil".
+
+7. LOGOUT — VERY IMPORTANT
+Make the existing Logout icon/button in the top-right actually work.
+
+When the user clicks Logout:
+- clear the authentication/session state
+- clear the current user
+- redirect to the Login page
+- do not remain on the dashboard.
+
+8. PROTECTED ROUTES
+If a logged-out user manually enters /dashboard or another beekeeper-only route:
+→ redirect them to Login.
+
+9. REFRESH TEST
+After:
+Login → Dashboard → Logout → Login page
+
+refresh the browser.
+
+The user must STILL be logged out.
+
+Do NOT automatically restore the previous user after logout.
+
+10. EXISTING DASHBOARD
+Preserve the current Honey Chain dashboard design and components.
+Do NOT remove or redesign:
+- Dashboard
+- Hive Monitoring
+- Honey Batches
+- Traceability
+- Verify Honey
+- Customer View
+- Sidebar
+- Honey Chain branding
+
+11. DO NOT WORK ON OTHER FEATURES YET
+For this task, DO NOT change:
+- blockchain functionality
+- QR functionality
+- IoT
+- AI
+- language system
+- honey batch workflow
+- visual redesign
+
+We will handle those in later steps.
+
+12. TEST THE COMPLETE FLOW BEFORE FINISHING:
+
+A. Open website while logged out
+→ Login/Register page appears.
+
+B. Register a new beekeeper
+→ registration succeeds.
+
+C. Login
+→ existing Honey Chain dashboard opens.
+
+D. Dashboard shows the registered user's name.
+
+E. Click Logout
+→ Login/Register page appears.
+
+F. Try opening /dashboard manually while logged out
+→ redirected to Login.
+
+G. Refresh the browser after logout
+→ still logged out.
+
+H. Login again
+→ dashboard opens normally.
+
+IMPORTANT:
+Before making changes, inspect the existing authentication code and determine why Rajesh Patil is automatically logged in and why Logout currently does nothing.
+
+Fix the actual problem rather than hiding UI elements.
+
+After completing the changes, briefly tell me:
+1. What caused the automatic Rajesh Patil login.
+2. What caused Logout not to work.
+3. What files you changed.
+4. Whether all tests A-H passed.
