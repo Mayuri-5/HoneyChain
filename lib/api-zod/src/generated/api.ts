@@ -443,7 +443,8 @@ export const ListBatchesResponseItem = zod.object({
   "quantityKg": zod.number(),
   "floralSource": zod.string(),
   "status": zod.string(),
-  "blockchainStatus": zod.string()
+  "blockchainStatus": zod.string(),
+  "beekeeperEmail": zod.string()
 })
 export const ListBatchesResponse = zod.array(ListBatchesResponseItem)
 
@@ -451,8 +452,17 @@ export const ListBatchesResponse = zod.array(ListBatchesResponseItem)
 /**
  * @summary Create a honey batch from a harvest
  */
+export const createBatchBodyQuantityKgMin = 0;
+
+
+
 export const CreateBatchBody = zod.object({
-  "harvestId": zod.string()
+  "hiveId": zod.string(),
+  "floralSource": zod.string(),
+  "quantityKg": zod.number().min(createBatchBodyQuantityKgMin),
+  "harvestDate": zod.string(),
+  "location": zod.string(),
+  "beekeeperEmail": zod.string()
 })
 
 export const CreateBatchResponse = zod.object({
@@ -466,7 +476,8 @@ export const CreateBatchResponse = zod.object({
   "quantityKg": zod.number(),
   "floralSource": zod.string(),
   "status": zod.string(),
-  "blockchainStatus": zod.string()
+  "blockchainStatus": zod.string(),
+  "beekeeperEmail": zod.string()
 })
 
 
@@ -499,7 +510,8 @@ export const GetBatchResponse = zod.object({
   "quantityKg": zod.number(),
   "floralSource": zod.string(),
   "status": zod.string(),
-  "blockchainStatus": zod.string()
+  "blockchainStatus": zod.string(),
+  "beekeeperEmail": zod.string()
 }),
   "origin": zod.object({
   "apiary": zod.string(),
@@ -778,7 +790,8 @@ export const VerifyBatchResponse = zod.object({
   "quantityKg": zod.number(),
   "floralSource": zod.string(),
   "status": zod.string(),
-  "blockchainStatus": zod.string()
+  "blockchainStatus": zod.string(),
+  "beekeeperEmail": zod.string()
 }),
   "origin": zod.object({
   "apiary": zod.string(),

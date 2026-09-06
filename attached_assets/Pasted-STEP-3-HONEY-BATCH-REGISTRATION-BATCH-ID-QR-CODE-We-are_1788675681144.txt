@@ -1,0 +1,269 @@
+STEP 3 — HONEY BATCH REGISTRATION + BATCH ID + QR CODE
+
+We are continuing the EXISTING Honey Chain MVP.
+
+IMPORTANT:
+- Do NOT rebuild the project.
+- Do NOT change the working Login/Register/Logout system from Step 1.
+- Do NOT redesign the beekeeper home from Step 2.
+- Do NOT work on AI, IoT, language translation, or advanced blockchain yet.
+- Preserve the existing Honey Chain design and styling.
+- Reuse the existing Honey Batches functionality/components where possible.
+
+GOAL:
+
+Create a simple, working honey batch registration flow for a rural beekeeper.
+
+BEEKEEPER FLOW:
+
+Dashboard
+→ Register Honey
+→ Fill simple form
+→ Register Batch
+→ Batch ID generated
+→ QR Code generated
+→ Batch appears in My Honey Batches / My QR Codes
+
+1. REGISTER HONEY FORM
+
+Create or modify the existing Register Honey page.
+
+The beekeeper should only need to enter/select:
+
+- Hive: dropdown containing the beekeeper's existing hives
+- Honey Type: dropdown (for example:
+  - Forest Honey
+  - Floral Honey
+  - Multifloral Honey
+  - Other)
+- Quantity: number in kg
+- Harvest Date
+- Location: use beekeeper's registered location as the default if available, but allow editing
+
+Keep the form simple and mobile-friendly.
+
+Do NOT ask the beekeeper to enter:
+- Blockchain hash
+- Transaction hash
+- Smart contract address
+- Technical IDs
+- IoT readings
+- AI information
+
+2. REGISTER BATCH BUTTON
+
+When the beekeeper clicks:
+
+"Register Honey Batch"
+
+validate the required fields.
+
+If valid:
+- create a new honey batch
+- save it using the existing application data/state/localStorage approach
+- associate it with the currently logged-in beekeeper
+- associate it with the selected hive
+
+3. UNIQUE BATCH ID
+
+Automatically generate a unique Batch ID.
+
+Use a clear format such as:
+
+HC-2026-0001
+
+Then:
+
+HC-2026-0002
+HC-2026-0003
+
+Do NOT use "demo".
+
+The Batch ID must remain the same after refreshing the page.
+
+4. BLOCKCHAIN DEMONSTRATION
+
+For this prototype, create a simulated blockchain record when a batch is registered.
+
+Show the beekeeper a simple message:
+
+"Batch securely recorded ✓"
+
+and optionally display:
+"Blockchain Record: Verified"
+
+Do NOT require the beekeeper to understand or enter blockchain information.
+
+If the project already has blockchain/mock blockchain logic, reuse it instead of creating duplicate logic.
+
+5. QR CODE
+
+Immediately after successful batch registration, show a Batch Successfully Registered page/modal containing:
+
+🍯 Honey Batch Registered
+
+Batch ID:
+HC-2026-0001
+
+Honey Type:
+[actual selected type]
+
+Quantity:
+[actual quantity] kg
+
+Harvest Date:
+[actual date]
+
+Then show:
+
+📱 QR CODE
+
+Generate a REAL scannable QR code.
+
+The QR code should contain a URL/path that identifies the registered batch, for example:
+
+/verify/HC-2026-0001
+
+Do NOT generate a QR code containing the word "demo".
+
+6. MY QR CODES
+
+Connect the existing "My QR Codes" section to the actual registered batches.
+
+For every registered batch, show:
+
+Batch ID
+Honey Type
+Harvest Date
+QR Code
+"View / Download QR" if supported
+
+If there are no registered batches, show:
+
+"No honey batches registered yet."
+
+Do NOT show fake batches or fake QR codes.
+
+7. MY HONEY BATCHES
+
+The existing Honey Batches page should display the batches actually registered by the currently logged-in beekeeper.
+
+Do NOT display Rajesh Patil's data or any other fake beekeeper's data.
+
+Each batch should show:
+- Batch ID
+- Honey type
+- Quantity
+- Harvest date
+- Hive
+- Location
+- Status
+
+8. DATA PERSISTENCE
+
+Use the existing application's storage/data architecture.
+
+For a prototype, localStorage is acceptable if there is no backend.
+
+After:
+Register Batch → Refresh browser
+
+the registered batch and its Batch ID must still exist.
+
+After logout and login again as the same beekeeper, their registered batches should still be available.
+
+Do NOT mix one beekeeper's batches with another beekeeper's batches.
+
+9. QR VERIFICATION ROUTE
+
+Create/fix the verification route so that:
+
+/verify/HC-2026-0001
+
+looks up the actual registered batch.
+
+For now, the verification page should display:
+
+✅ Honey Verified
+
+Batch ID
+Honey Type
+Quantity
+Harvest Date
+Hive
+Location
+
+and:
+
+"Blockchain Record: Verified"
+
+If an unknown Batch ID is entered:
+
+❌ Batch Not Found
+
+"No honey batch with this Batch ID exists."
+
+IMPORTANT:
+Do NOT use the existing "/verify/demo" placeholder.
+
+10. CONSUMER VIEW
+
+Keep the existing Customer View functionality.
+
+The QR should open the consumer-facing verification page, not the beekeeper dashboard.
+
+11. EMPTY STATE
+
+A brand-new beekeeper with no registered batches should see:
+
+"My Honey Batches"
+"No batches registered yet."
+
+"My QR Codes"
+"No QR codes available yet."
+
+Do NOT preload sample honey batches.
+
+12. TEST EVERYTHING
+
+Before finishing, test this exact flow:
+
+Login
+→ Dashboard
+→ Register Honey
+→ Select Hive
+→ Select Honey Type
+→ Enter Quantity
+→ Select Harvest Date
+→ Register Honey Batch
+→ Batch ID generated
+→ QR Code generated
+→ Batch appears in My Honey Batches
+→ Batch appears in My QR Codes
+→ Scan/open QR
+→ Consumer Verification page opens
+→ Correct batch information displayed.
+
+Also test:
+
+Refresh browser
+→ batch still exists.
+
+Logout
+→ login again
+→ batch still exists.
+
+Try invalid batch ID
+→ "Batch Not Found".
+
+IMPORTANT:
+Do not modify the working authentication/logout from Step 1.
+Do not modify the simplified dashboard from Step 2 unless absolutely necessary to connect the Register Honey button.
+
+After completing the work, tell me:
+1. Which files were changed.
+2. How batch data is stored.
+3. How the Batch ID is generated.
+4. How the QR code is generated.
+5. What URL/path the QR code contains.
+6. Whether the complete registration → QR → verification flow was tested successfully.

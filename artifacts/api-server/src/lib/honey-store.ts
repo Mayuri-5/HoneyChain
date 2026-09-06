@@ -57,6 +57,7 @@ export type BatchRecord = {
   id: string;
   harvestId: string;
   hiveId: string;
+  beekeeperEmail: string;
   apiaryName: string;
   location: string;
   beeSpecies: string;
@@ -232,6 +233,7 @@ function seedDemoChain(): void {
     id: "HC2026-000001",
     harvestId: harvest.id,
     hiveId: harvest.hiveId,
+    beekeeperEmail: "",
     apiaryName: "Green Valley Apiary",
     location: "Dhule, Maharashtra",
     beeSpecies: "Apis mellifera",

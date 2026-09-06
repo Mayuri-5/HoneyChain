@@ -292,19 +292,37 @@ router.post("/batches", (req, res): void => {
     res.status(400).json({ error: parsed.error.message });
     return;
   }
-  const harvest = store.harvests.find((item) => item.id === parsed.data.harvestId);
-  const hive = harvest ? store.hives.find((item) => item.id === harvest.hiveId) : undefined;
+  const hive = store.hives.find((item) => item.id === parsed.data.hiveId);
   const apiary = hive ? store.apiaries.find((item) => item.id === hive.apiaryId) : undefined;
-  if (!harvest || !hive || !apiary) {
-    res.status(404).json({ error: "Harvest not found" });
+  if (!hive || !apiary) {
+    res.status(404).json({ error: "Hive or apiary not found" });
     return;
   }
+  const nextBatchNumber = store.batches.reduce((highest, item) => {
+    const match = item.id.match(/^HC-\d{4}-(\d{4})$/);
+    return Math.max(highest, match ? Number(match[1]) : 0);
+  }, 0) + 1;
+  const harvest: HarvestRecord = {
+    id: nextId("HARVEST"),
+    hiveId: hive.id,
+    hiveName: hive.name,
+    harvestDate: parsed.data.harvestDate,
+    quantityKg: parsed.data.quantityKg,
+    floralSource: parsed.data.floralSource,
+    weather: "Not recorded",
+    notes: "Harvest recorded during batch registration.",
+    blockchainTxId: "",
+  };
+  const harvestTx = addBlock(harvest.id, "HARVEST_RECORDED", harvest, currentActor(req));
+  harvest.blockchainTxId = harvestTx.transactionId;
+  store.harvests.push(harvest);
   const batch = {
-    id: `HC${new Date().getFullYear()}-${String(store.batches.length + 1).padStart(6, "0")}`,
+    id: `HC-${new Date().getFullYear()}-${String(nextBatchNumber).padStart(4, "0")}`,
     harvestId: harvest.id,
     hiveId: hive.id,
+    beekeeperEmail: parsed.data.beekeeperEmail,
     apiaryName: apiary.name,
-    location: apiary.location,
+    location: parsed.data.location,
     beeSpecies: hive.beeSpecies,
     harvestDate: harvest.harvestDate,
     quantityKg: harvest.quantityKg,

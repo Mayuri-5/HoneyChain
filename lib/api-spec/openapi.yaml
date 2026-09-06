@@ -738,7 +738,7 @@ components:
         notes: { type: string }
     HoneyBatch:
       type: object
-      required: [id, harvestId, hiveId, apiaryName, harvestDate, quantityKg, floralSource, status, blockchainStatus]
+      required: [id, harvestId, hiveId, apiaryName, harvestDate, quantityKg, floralSource, status, blockchainStatus, beekeeperEmail]
       properties:
         id: { type: string }
         harvestId: { type: string }
@@ -751,11 +751,17 @@ components:
         floralSource: { type: string }
         status: { type: string }
         blockchainStatus: { type: string }
+        beekeeperEmail: { type: string }
     BatchInput:
       type: object
-      required: [harvestId]
+      required: [hiveId, floralSource, quantityKg, harvestDate, location, beekeeperEmail]
       properties:
-        harvestId: { type: string }
+        hiveId: { type: string }
+        floralSource: { type: string }
+        quantityKg: { type: number, minimum: 0 }
+        harvestDate: { type: string }
+        location: { type: string }
+        beekeeperEmail: { type: string }
     QualityTest:
       type: object
       required: [id, batchId, moisture, hmf, diastase, ph, sugarContent, purityStatus, laboratory, testDate, blockchainTxId]

@@ -18,4 +18,5 @@ export interface HoneyBatch {
   floralSource: string;
   status: string;
   blockchainStatus: string;
+  beekeeperEmail: string;
 }

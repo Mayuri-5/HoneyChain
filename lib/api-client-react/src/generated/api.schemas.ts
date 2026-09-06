@@ -203,10 +203,17 @@ export interface HoneyBatch {
   floralSource: string;
   status: string;
   blockchainStatus: string;
+  beekeeperEmail: string;
 }
 
 export interface BatchInput {
-  harvestId: string;
+  hiveId: string;
+  floralSource: string;
+  /** @minimum 0 */
+  quantityKg: number;
+  harvestDate: string;
+  location: string;
+  beekeeperEmail: string;
 }
 
 export interface QualityTest {

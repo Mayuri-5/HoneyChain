@@ -4,6 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Bell, Blocks, Boxes, ChevronLeft, ChevronRight, Hexagon, Home, LogOut, Menu, ScanLine, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/lib/auth';
+import { t } from '@/lib/i18n';
 
 const primaryNav = [
   { href: '/dashboard', label: 'Dashboard', icon: Home },
@@ -29,7 +30,7 @@ function NavGroup({ title, items, pathname, onNavigate }: { title: string; items
       const active = pathname === href || pathname.startsWith(`${href}/`);
       return <Link key={href} href={href} onClick={onNavigate} data-testid={`link-nav-${href.slice(1)}`} className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all ${active ? 'bg-primary font-semibold text-primary-foreground shadow-[0_4px_16px_hsl(43_87%_49%/.16)]' : 'text-sidebar-foreground/68 hover:bg-sidebar-accent hover:text-sidebar-foreground'}`}>
         <Icon className={`size-[17px] transition-transform group-hover:scale-105 ${active ? '' : 'text-sidebar-foreground/55'}`} />
-        <span>{label}</span>
+        <span>{label === 'Dashboard' ? t('dashboard') : label === 'My Hives' ? t('hives') : label === 'Register Honey' ? t('registerHoney') : label === 'My QR Codes' ? t('qrCodes') : label === 'Alerts' ? t('alerts') : label}</span>
         {active && <span className="ml-auto size-1.5 rounded-full bg-sidebar-foreground/70" />}
       </Link>;
     })}
@@ -75,6 +76,20 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
         <div className="flex items-center gap-2.5">
           <Link href="/verify/demo" className="hidden items-center gap-2 rounded-xl border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground transition hover:border-primary sm:flex" data-testid="link-customer-passport"><ScanLine className="size-4 text-primary" />Customer view</Link>
+          <select
+  className="rounded-xl border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground outline-none"
+  defaultValue={localStorage.getItem("honeychain-language") || "en"}
+  onChange={(e) => {
+  localStorage.setItem("honeychain-language", e.target.value);
+  window.location.reload();
+}}
+  aria-label="Select language"
+>
+  <option value="en">English</option>
+  <option value="hi">हिंदी</option>
+  <option value="mr">मराठी</option>
+</select>
+
           <Link href="/alerts" className="rounded-xl border border-border bg-card p-2.5 text-muted-foreground transition hover:text-foreground" data-testid="button-notifications"><Bell className="size-[17px]" /></Link>
           <div className="hidden h-7 w-px bg-border sm:block" />
           <div className="flex items-center gap-2" data-testid="header-keeper">
