@@ -31,7 +31,21 @@ function NavGroup({ title, items, pathname, onNavigate }: { title: string; items
       const active = pathname === href || pathname.startsWith(`${href}/`);
       return <Link key={href} href={href} onClick={onNavigate} data-testid={`link-nav-${href.slice(1)}`} className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all ${active ? 'bg-primary font-semibold text-primary-foreground shadow-[0_4px_16px_hsl(43_87%_49%/.16)]' : 'text-sidebar-foreground/68 hover:bg-sidebar-accent hover:text-sidebar-foreground'}`}>
         <Icon className={`size-[17px] transition-transform group-hover:scale-105 ${active ? '' : 'text-sidebar-foreground/55'}`} />
-        <span>{label === 'Dashboard' ? t('dashboard') : label === 'My Hives' ? t('hives') : label === 'Register Honey' ? t('registerHoney') : label === 'My QR Codes' ? t('qrCodes') : label === 'Alerts' ? t('alerts') : label}</span>
+        <span>
+  {label === 'Dashboard'
+    ? t('dashboard')
+    : label === 'Apiaries'
+      ? t('apiaries')
+      : label === 'My Hives'
+        ? t('hives')
+        : label === 'Register Honey'
+          ? t('registerHoney')
+          : label === 'My QR Codes'
+            ? t('qrCodes')
+            : label === 'Alerts'
+              ? t('alerts')
+              : label}
+</span>
         {active && <span className="ml-auto size-1.5 rounded-full bg-sidebar-foreground/70" />}
       </Link>;
     })}

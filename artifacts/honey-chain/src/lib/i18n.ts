@@ -3,7 +3,8 @@ export type Language = "en" | "hi" | "mr";
 const translations = {
   en: {
     dashboard: "Dashboard",
-    hives: "My Hives",
+apiaries: "Apiaries",
+hives: "My Hives",
     registerHoney: "Register Honey",
     qrCodes: "My QR Codes",
     alerts: "Alerts",
@@ -55,7 +56,8 @@ const translations = {
 
   hi: {
     dashboard: "डैशबोर्ड",
-    hives: "मेरी मधुमक्खी पेटियाँ",
+apiaries: "मधुमक्खी पालन क्षेत्र",
+hives: "मेरी मधुमक्खी पेटियाँ",
     registerHoney: "शहद पंजीकृत करें",
     qrCodes: "मेरे QR कोड",
     alerts: "सूचनाएँ",
@@ -107,7 +109,8 @@ const translations = {
 
   mr: {
     dashboard: "डॅशबोर्ड",
-    hives: "माझ्या मधमाशी पेट्या",
+apiaries: "मधमाशी पालन क्षेत्र",
+hives: "माझ्या मधमाशी पेट्या",
     registerHoney: "मध नोंदणी करा",
     qrCodes: "माझे QR कोड",
     alerts: "सूचना",
