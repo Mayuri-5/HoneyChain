@@ -884,7 +884,7 @@ components:
         qrData: { type: string }
     HoneyPassport:
       type: object
-      required: [batch, origin, harvest, quality, processing, supplyChain, blockchainVerified, feedback]
+      required: [batch, origin, harvest, supplyChain, blockchainVerified, feedback]
       properties:
         batch: { $ref: "#/components/schemas/HoneyBatch" }
         origin:
@@ -897,7 +897,10 @@ components:
             floralSource: { type: string }
         harvest: { $ref: "#/components/schemas/Harvest" }
         quality: { $ref: "#/components/schemas/QualityTest" }
-        processing: { $ref: "#/components/schemas/Processing" }
+        processing:
+          allOf:
+            - $ref: "#/components/schemas/Processing"
+          nullable: true
         supplyChain:
           type: array
           items: { $ref: "#/components/schemas/SupplyChainEvent" }

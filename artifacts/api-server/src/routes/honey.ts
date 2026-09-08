@@ -75,7 +75,11 @@ import {
 const router: IRouter = Router();
 
 function currentActor(req: Parameters<typeof router.get>[1] extends never ? never : any): string {
-  return getAuth(req).userId ?? "system";
+  try {
+    return getAuth(req).userId ?? "system";
+  } catch {
+    return "system";
+  }
 }
 
 router.post("/auth/register", (req, res): void => {
@@ -109,7 +113,12 @@ router.post("/auth/logout", (_req, res): void => {
 });
 
 router.get("/me", (req, res): void => {
-  const userId = getAuth(req).userId;
+  let userId: string | null = null;
+  try {
+    userId = getAuth(req).userId;
+  } catch {
+    userId = null;
+  }
   if (!userId || !store.user) {
     res.status(401).json({ error: "Unauthorized" });
     return;

@@ -39,9 +39,12 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
 function Router() {
   const [location] = useLocation();
   const { user } = useAuth();
-  const publicRoute = location === '/login' || location.startsWith('/login/') || location === '/register' || location.startsWith('/register/') || location === '/sign-in' || location.startsWith('/sign-in/') || location === '/sign-up' || location.startsWith('/sign-up/') || location === '/verify' || location.startsWith('/verify/');
+  const routePath = basePath && basePath !== '/' && location.startsWith(basePath)
+    ? location.slice(basePath.length) || '/'
+    : location;
+  const publicRoute = routePath === '/login' || routePath.startsWith('/login/') || routePath === '/register' || routePath.startsWith('/register/') || routePath === '/sign-in' || routePath.startsWith('/sign-in/') || routePath === '/sign-up' || routePath.startsWith('/sign-up/') || routePath === '/verify' || routePath.startsWith('/verify/');
 
-  if (location === '/') return <Redirect to={user ? '/dashboard' : '/login'} />;
+  if (routePath === '/') return <Redirect to={user ? '/dashboard' : '/login'} />;
   if (!user && !publicRoute) return <Redirect to="/login" />;
 
   return (

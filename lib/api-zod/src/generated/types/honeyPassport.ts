@@ -18,7 +18,7 @@ export interface HoneyPassport {
   origin: HoneyPassportOrigin;
   harvest: Harvest;
   quality: QualityTest;
-  processing: Processing;
+  processing?: Processing;
   supplyChain: SupplyChainEvent[];
   blockchainVerified: boolean;
   feedback: Feedback[];

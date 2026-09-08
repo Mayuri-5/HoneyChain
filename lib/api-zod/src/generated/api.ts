@@ -543,7 +543,7 @@ export const GetBatchResponse = zod.object({
   "testDate": zod.string(),
   "certificateUrl": zod.string().optional(),
   "blockchainTxId": zod.string()
-}),
+}).optional(),
   "processing": zod.object({
   "id": zod.string(),
   "batchId": zod.string(),
@@ -554,7 +554,7 @@ export const GetBatchResponse = zod.object({
   "packageDate": zod.string(),
   "expiryDate": zod.string(),
   "blockchainTxId": zod.string()
-}),
+}).optional(),
   "supplyChain": zod.array(zod.object({
   "id": zod.string(),
   "batchId": zod.string(),
@@ -809,7 +809,7 @@ export const VerifyBatchResponse = zod.object({
   "weather": zod.string(),
   "notes": zod.string().optional(),
   "blockchainTxId": zod.string()
-}),
+}).optional(),
   "quality": zod.object({
   "id": zod.string(),
   "batchId": zod.string(),
@@ -823,7 +823,7 @@ export const VerifyBatchResponse = zod.object({
   "testDate": zod.string(),
   "certificateUrl": zod.string().optional(),
   "blockchainTxId": zod.string()
-}),
+}).optional(),
   "processing": zod.object({
   "id": zod.string(),
   "batchId": zod.string(),
@@ -834,7 +834,7 @@ export const VerifyBatchResponse = zod.object({
   "packageDate": zod.string(),
   "expiryDate": zod.string(),
   "blockchainTxId": zod.string()
-}),
+}).optional(),
   "supplyChain": zod.array(zod.object({
   "id": zod.string(),
   "batchId": zod.string(),
