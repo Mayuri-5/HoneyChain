@@ -67,10 +67,12 @@ import {
   persistStore,
   store,
   verifyChain,
+  type BlockchainRecord,
   type ApiaryRecord,
   type HarvestRecord,
   type HiveRecord,
 } from "../lib/honey-store";
+import { verifyBatchProof } from "../lib/blockchain/client";
 
 const router: IRouter = Router();
 
@@ -463,6 +465,24 @@ router.get("/verify/:batchId", (req, res): void => {
     return;
   }
   res.json(VerifyBatchResponse.parse(passport));
+});
+
+router.get("/verify/:batchId/blockchain", async (req, res): Promise<void> => {
+  const params = VerifyBatchParams.safeParse(req.params);
+  if (!params.success) {
+    res.status(400).json({ error: params.error.message });
+    return;
+  }
+  const passport = getPassport(params.data.batchId);
+  if (!passport) {
+    res.status(404).json({ error: "Batch not found" });
+    return;
+  }
+  const registration = store.blockchain.find(
+    (record: BlockchainRecord) => record.batchId === params.data.batchId && record.eventType === "BATCH_CREATED",
+  );
+  const proof = await verifyBatchProof(params.data.batchId, registration?.blockchainTxHash);
+  res.json(proof);
 });
 
 router.post("/feedback", (req, res): void => {

@@ -23,8 +23,8 @@ import {
   QrCodesPage,
   QualityPage,
   SupplyChainPage,
-  VerifyPage,
 } from '@/pages/product-pages';
+import { VerifyPage } from '@/pages/verify-passport-route';
 import {
   Route,
   Redirect,

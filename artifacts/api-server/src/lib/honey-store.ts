@@ -1,4 +1,8 @@
 import { createHash, randomUUID } from "node:crypto";
+import { logger } from "./logger";
+import { submitBlockchainRecord } from "./blockchain/client";
+import { loadBlockchainConfig } from "./blockchain/config";
+import type { BlockchainSubmissionStatus } from "./blockchain/types";
 
 export type UserRecord = {
   id: string;
@@ -118,6 +122,11 @@ export type BlockchainRecord = {
   currentHash: string;
   actor: string;
   status: string;
+  blockchainStatus: BlockchainSubmissionStatus;
+  blockchainTxHash?: string;
+  blockchainBlockNumber?: number;
+  blockchainNetwork?: string;
+  blockchainContractAddress?: string;
 };
 
 export type FeedbackRecord = {
@@ -145,6 +154,18 @@ export const store = {
 };
 
 const STATE_ID = "honey-chain-auth-prototype";
+const pendingBlockchainSubmissions = new Set<Promise<void>>();
+const pendingHarvestSubmissions: Array<{
+  block: BlockchainRecord;
+  submission: {
+    batchId: string;
+    eventType: string;
+    dataHash: string;
+    actor: string;
+    data: unknown;
+  };
+}> = [];
+let blockchainSubmissionQueue = Promise.resolve();
 
 function sha256(value: string): string {
   return createHash("sha256").update(value).digest("hex");
@@ -163,6 +184,7 @@ export function addBlock(
   const currentHash = sha256(
     JSON.stringify({ index, batchId, eventType, timestamp, dataHash, previousHash, actor }),
   );
+  const blockchainConfigured = Boolean(loadBlockchainConfig());
   const block: BlockchainRecord = {
     index,
     transactionId: `TX-${String(index).padStart(4, "0")}`,
@@ -174,9 +196,82 @@ export function addBlock(
     currentHash,
     actor,
     status: "Verified",
+    blockchainStatus: blockchainConfigured ? "PENDING" : "NOT_CONFIGURED",
   };
   store.blockchain.push(block);
+  const submission = {
+    batchId,
+    eventType,
+    dataHash,
+    actor,
+    data,
+  };
+  if (blockchainConfigured && eventType === "HARVEST_RECORDED") {
+    pendingHarvestSubmissions.push({ block, submission });
+    return block;
+  }
+
+  const queuedSubmission = blockchainSubmissionQueue.then(async () => {
+    const metadata = await submitBlockchainRecord(submission);
+    if (metadata) applyBlockchainMetadata(block, metadata);
+
+    if (eventType === "BATCH_CREATED") {
+      const pendingHarvestIndex = pendingHarvestSubmissions.findIndex(
+        (pending) => pending.submission.batchId === getStringValue(data, "harvestId"),
+      );
+      const pendingHarvest = pendingHarvestIndex >= 0
+        ? pendingHarvestSubmissions.splice(pendingHarvestIndex, 1)[0]
+        : undefined;
+      if (pendingHarvest) {
+        const harvestMetadata = await submitBlockchainRecord({
+          ...pendingHarvest.submission,
+          batchId,
+        });
+        if (harvestMetadata) applyBlockchainMetadata(pendingHarvest.block, harvestMetadata);
+      }
+    }
+  })
+    .catch((error: unknown) => {
+      block.blockchainStatus = "FAILED";
+      logger.error(
+        {
+          batchId,
+          eventType,
+          error: error instanceof Error
+            ? error.message.split(" (action=")[0]
+            : String(error),
+        },
+        "Blockchain submission failed",
+      );
+    });
+  blockchainSubmissionQueue = queuedSubmission.then(() => undefined);
+  pendingBlockchainSubmissions.add(queuedSubmission);
+  void queuedSubmission.finally(() => pendingBlockchainSubmissions.delete(queuedSubmission));
   return block;
+}
+
+function getStringValue(data: unknown, key: string): string | undefined {
+  return typeof data === "object" && data !== null && typeof (data as Record<string, unknown>)[key] === "string"
+    ? (data as Record<string, string>)[key]
+    : undefined;
+}
+
+function applyBlockchainMetadata(
+  block: BlockchainRecord,
+  metadata: Awaited<ReturnType<typeof submitBlockchainRecord>>,
+): void {
+  if (!metadata) return;
+  Object.assign(block, {
+    blockchainStatus: metadata.blockchainStatus === "confirmed" ? "CONFIRMED" : "PENDING",
+    blockchainTxHash: metadata.blockchainTxHash,
+    blockchainBlockNumber: metadata.blockNumber,
+    blockchainNetwork: metadata.blockchainNetwork,
+    blockchainContractAddress: metadata.contractAddress,
+  });
+}
+
+export async function waitForBlockchainSubmissions(): Promise<void> {
+  await Promise.all([...pendingBlockchainSubmissions]);
 }
 
 export function verifyChain(): { valid: boolean; checkedBlocks: number; message: string; checkedAt: string } {

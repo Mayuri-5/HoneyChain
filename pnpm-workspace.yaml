@@ -36,6 +36,7 @@ minimumReleaseAgeExclude:
 
 packages:
   - artifacts/*
+  - contracts
   - lib/*
   - lib/integrations/*
   - scripts
@@ -162,3 +163,4 @@ overrides:
 allowBuilds:
   '@clerk/shared': set this to true or false
   esbuild: set this to true or false
+  keccak: set this to true or false
