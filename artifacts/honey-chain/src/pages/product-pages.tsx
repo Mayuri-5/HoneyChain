@@ -6,7 +6,7 @@ import { useState, type ReactNode } from 'react';
 import { Link, useLocation, useParams } from 'wouter';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '@/lib/auth';
-import { t } from '@/lib/i18n';
+import { t, translateText } from '@/lib/i18n';
 import {
   useCreateApiary, useCreateBatch, useCreateCorrection, useCreateFeedback, useCreateHarvest, useCreateHive, useCreateInspection,
   useCreateProcessing, useCreateQualityTest, useCreateSupplyChainEvent, useGetAnalytics, useGetBatch, useGetBatchQr, useGetDashboard,
@@ -36,12 +36,12 @@ const number = (value?: number) => typeof value === 'number' ? value.toLocaleStr
 
 function PageHead({ eyebrow, title, detail, action, actionLabel = 'Add record' }: { eyebrow: string; title: string; detail: string; action?: () => void; actionLabel?: string }) {
   return <div className="mb-8 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
-    <div><p className="mb-2 font-mono-ui text-[10px] uppercase tracking-[.2em] text-primary">{eyebrow}</p><h1 className="font-display text-4xl font-bold tracking-tight text-foreground sm:text-5xl">{title}</h1><p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">{detail}</p></div>
+    <div><p className="mb-2 font-mono-ui text-[10px] uppercase tracking-[.2em] text-primary">{translateText(eyebrow)}</p><h1 className="font-display text-4xl font-bold tracking-tight text-foreground sm:text-5xl">{translateText(title)}</h1><p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">{translateText(detail)}</p></div>
     {action && <Button onClick={action} data-testid="button-page-action" className="shrink-0 rounded-xl px-5"><Plus className="size-4" />{actionLabel}</Button>}
   </div>;
 }
 
-function SectionLabel({ children }: { children: ReactNode }) { return <p className="font-mono-ui text-[10px] uppercase tracking-[.18em] text-muted-foreground">{children}</p>; }
+function SectionLabel({ children }: { children: ReactNode }) { return <p className="font-mono-ui text-[10px] uppercase tracking-[.18em] text-muted-foreground">{typeof children === 'string' ? translateText(children) : children}</p>; }
 function StatusPill({ value, good = false }: { value?: string; good?: boolean }) { const positive = good || ['verified', 'active', 'passed', 'complete', 'healthy', 'approved'].some((x) => value?.toLowerCase().includes(x)); return <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono-ui text-[10px] uppercase tracking-wide ${positive ? 'border-emerald-700/20 bg-emerald-700/10 text-emerald-800 dark:text-emerald-300' : 'border-primary/20 bg-primary/10 text-primary-foreground'}`}><span className={`size-1.5 rounded-full ${positive ? 'bg-emerald-600' : 'bg-primary'}`} />{value ?? 'Pending'}</span>; }
 function LoadingRows() { return <div className="space-y-3">{[1, 2, 3].map((i) => <div key={i} className="h-16 animate-pulse rounded-2xl bg-muted" />)}</div>; }
 function EmptyState({ title, detail, onAdd }: { title: string; detail: string; onAdd?: () => void }) { return <div className="grid min-h-[260px] place-items-center rounded-2xl border border-dashed border-border bg-card/60 p-8 text-center"><div><span className="mx-auto mb-4 grid size-12 place-items-center rounded-2xl bg-primary/12 text-primary"><Leaf className="size-5" /></span><h3 className="font-display text-xl font-bold">{title}</h3><p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">{detail}</p>{onAdd && <Button onClick={onAdd} variant="outline" className="mt-5 rounded-xl" data-testid="button-empty-add"><Plus className="size-4" />Add the first record</Button>}</div></div>; }
@@ -76,9 +76,6 @@ export function SignInPage({ signUp = false }: { signUp?: boolean }) {
 }
 
 export function DashboardPage() {
-    const [language, setLanguage] = useState(() => {
-    return localStorage.getItem("honeychain-language") || "en";
-  });
   const dash = useGetDashboard({ query: { retry: false, queryKey: getGetDashboardQueryKey() } });
   const { user } = useAuth();
   if (dash.isLoading) return <AppShell><LoadingRows /></AppShell>;
@@ -199,10 +196,10 @@ export function BatchesPage() {
     <AppShell>
       <PageHead
         eyebrow="Proof & movement / 01"
-        title="Honey batches"
-        detail="The unit of trust. Each batch gathers a harvest, its origin, and the events that follow."
+        title={t('batchesTitle')}
+        detail={t('batchesDetail')}
         action={() => setOpen(true)}
-        actionLabel="Create batch"
+        actionLabel={t('createBatch')}
       />
 
       {q.isLoading ? (
@@ -211,8 +208,8 @@ export function BatchesPage() {
         <ErrorState retry={() => q.refetch()} />
       ) : !list.length ? (
         <EmptyState
-          title="No batches yet"
-          detail="Create a batch from an existing hive to start a traceable thread."
+          title={t('noBatches')}
+          detail={t('noBatchesDetail')}
           onAdd={() => setOpen(true)}
         />
       ) : (
@@ -263,7 +260,7 @@ export function BatchesPage() {
       )}
 
       {open && (
-        <Drawer title="Create a batch" onClose={() => setOpen(false)}>
+        <Drawer title={t('createBatch')} onClose={() => setOpen(false)}>
           <form onSubmit={save} className="space-y-4">
             <label className="block s
             pace-y-2">
@@ -354,12 +351,12 @@ export function BlockchainPage() {
     <AppShell>
       <PageHead
         eyebrow="Proof & movement / 05"
-        title="Ledger explorer"
-        detail="An append-only view of the chain. Verify its shape, then inspect every link."
+        title={t('blockchainTitle')}
+        detail={t('blockchainDetail')}
         action={() =>
           verify.mutate(undefined, { onSuccess: (v) => setVerified(v) })
         }
-        actionLabel={verify.isPending ? "Verifying…" : "Verify chain"}
+        actionLabel={verify.isPending ? "Verifying…" : t('verifyChain')}
       />
       {verified && (
         <div

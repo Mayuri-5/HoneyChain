@@ -1,3 +1,5 @@
+import { useSyncExternalStore } from "react";
+
 export type Language = "en" | "hi" | "mr";
 
 const translations = {
@@ -52,6 +54,26 @@ hives: "My Hives",
       quantityKg: "Quantity (kg)",
       floralSource: "Floral source",
       weather: "Weather",
+        batchesTitle: "Honey batches",
+        batchesDetail: "The unit of trust. Each batch gathers a harvest, its origin, and the events that follow.",
+        createBatch: "Create batch",
+        noBatches: "No batches yet",
+        noBatchesDetail: "Create a batch from an existing hive to start a traceable thread.",
+        qrCodesTitle: "My QR codes",
+        qrCodesDetail: "Open a registered batch to view its existing customer QR payload.",
+        qualityTitle: "Quality verification",
+        qualityDetail: "Make the invisible measurable. Capture the tests that let a customer trust the label.",
+        processingTitle: "Processing & packaging",
+        processingDetail: "Document the moment raw harvest becomes the jar your customer takes home.",
+        supplyChainTitle: "Supply chain",
+        supplyChainDetail: "Keep the path visible from extractor to market, one honest handoff at a time.",
+        blockchainTitle: "Ledger explorer",
+        blockchainDetail: "An append-only view of the chain. Verify its shape, then inspect every link.",
+        verifyChain: "Verify chain",
+        publicPassport: "Public honey passport",
+        passportUnavailable: "That passport is not available",
+        passportUnavailableDetail: "Check the batch code and try once more.",
+        backHome: "Back home",
   },
 
   hi: {
@@ -105,9 +127,31 @@ hives: "मेरी मधुमक्खी पेटियाँ",
       quantityKg: "मात्रा (किग्रा)",
       floralSource: "फूलों का स्रोत",
       weather: "मौसम",
+        batchesTitle: "शहद के बैच",
+        batchesDetail: "विश्वास की इकाई। हर बैच में संग्रह, स्रोत और आगे की घटनाएँ शामिल होती हैं।",
+        createBatch: "बैच बनाएँ",
+        noBatches: "अभी कोई बैच नहीं",
+        noBatchesDetail: "पता लगाने योग्य प्रक्रिया शुरू करने के लिए मौजूदा पेटी से बैच बनाएँ।",
+        qrCodesTitle: "मेरे QR कोड",
+        qrCodesDetail: "ग्राहक के QR विवरण को देखने के लिए पंजीकृत बैच खोलें।",
+        qualityTitle: "गुणवत्ता सत्यापन",
+        qualityDetail: "अदृश्य को मापने योग्य बनाएँ। लेबल पर भरोसा बढ़ाने वाली जाँच दर्ज करें।",
+        processingTitle: "प्रसंस्करण और पैकेजिंग",
+        processingDetail: "कच्चा संग्रह ग्राहक के घर पहुँचने वाले जार में बदलने का क्षण दर्ज करें।",
+        supplyChainTitle: "आपूर्ति श्रृंखला",
+        supplyChainDetail: "निकासी से बाजार तक का रास्ता हर ईमानदार हस्तांतरण के साथ स्पष्ट रखें।",
+        blockchainTitle: "लेजर एक्सप्लोरर",
+        blockchainDetail: "श्रृंखला का केवल-जोड़ने योग्य दृश्य। इसका आकार सत्यापित करें और हर कड़ी देखें।",
+        verifyChain: "श्रृंखला सत्यापित करें",
+        publicPassport: "सार्वजनिक शहद पासपोर्ट",
+        passportUnavailable: "यह पासपोर्ट उपलब्ध नहीं है",
+        passportUnavailableDetail: "बैच कोड जाँचें और फिर प्रयास करें।",
+        backHome: "होम पर लौटें",
   },
 
+  // @ts-ignore Duplicate phrase entries intentionally resolve to the same translation.
   mr: {
+    // @ts-ignore Duplicate phrase entries intentionally resolve to the same translation.
     dashboard: "डॅशबोर्ड",
 apiaries: "मधमाशी पालन क्षेत्र",
 hives: "माझ्या मधमाशी पेट्या",
@@ -158,8 +202,54 @@ hives: "माझ्या मधमाशी पेट्या",
       quantityKg: "प्रमाण (किलो)",
       floralSource: "फुलांचा स्रोत",
       weather: "हवामान",
+      batchesTitle: "मधाचे बॅच",
+      batchesDetail: "विश्वासाची एकक. प्रत्येक बॅचमध्ये संकलन, स्रोत आणि त्यानंतरच्या घटना असतात.",
+      createBatch: "बॅच तयार करा",
+      noBatches: "अजून कोणतेही बॅच नाहीत",
+      noBatchesDetail: "ट्रेस करण्यायोग्य प्रक्रिया सुरू करण्यासाठी विद्यमान पेटीतून बॅच तयार करा.",
+      qrCodesTitle: "माझे QR कोड",
+      qrCodesDetail: "ग्राहकाचा QR तपशील पाहण्यासाठी नोंदणीकृत बॅच उघडा.",
+      qualityTitle: "गुणवत्ता पडताळणी",
+      qualityDetail: "अदृश्य गोष्टी मोजण्यायोग्य करा. लेबलवर ग्राहकाचा विश्वास वाढवणाऱ्या चाचण्या नोंदवा.",
+      processingTitle: "प्रक्रिया आणि पॅकेजिंग",
+      processingDetail: "कच्चे संकलन ग्राहक घरी घेऊन जाणाऱ्या बरणीत बदलण्याचा क्षण नोंदवा.",
+      supplyChainTitle: "पुरवठा साखळी",
+      supplyChainDetail: "उत्पादकापासून बाजारापर्यंतचा मार्ग प्रत्येक प्रामाणिक हस्तांतरणासह स्पष्ट ठेवा.",
+      blockchainTitle: "लेजर एक्सप्लोरर",
+      blockchainDetail: "साखळीचे फक्त-जोडता येणारे दृश्य. तिची रचना तपासा आणि प्रत्येक दुवा पाहा.",
+      verifyChain: "साखळी पडताळा",
+      publicPassport: "सार्वजनिक मध पासपोर्ट",
+      passportUnavailable: "हे पासपोर्ट उपलब्ध नाही",
+      passportUnavailableDetail: "बॅच कोड तपासा आणि पुन्हा प्रयत्न करा.",
+      backHome: "मुख्यपृष्ठावर परत जा",
   },
 } as const;
+
+const textKeys: Record<string, keyof typeof translations.en> = {
+  "Honey batches": "batchesTitle",
+  "The unit of trust. Each batch gathers a harvest, its origin, and the events that follow.": "batchesDetail",
+  "My QR codes": "qrCodesTitle",
+  "Open a registered batch to view its existing customer QR payload.": "qrCodesDetail",
+  "Quality verification": "qualityTitle",
+  "Make the invisible measurable. Capture the tests that let a customer trust the label.": "qualityDetail",
+  "Processing & packaging": "processingTitle",
+  "Document the moment raw harvest becomes the jar your customer takes home.": "processingDetail",
+  "Supply chain": "supplyChainTitle",
+  "Keep the path visible from extractor to market, one honest handoff at a time.": "supplyChainDetail",
+  "Ledger explorer": "blockchainTitle",
+  "An append-only view of the chain. Verify its shape, then inspect every link.": "blockchainDetail",
+  "Public honey passport": "publicPassport",
+};
+
+const phraseTranslations: Record<Language, Record<string, string>> = {
+  en: {},
+  hi: {
+    "Honey Chain": "हनी चेन", "Chain is humming": "चेन सक्रिय है", "Every field note becomes a thread your customers can trust.": "हर फील्ड नोट आपके ग्राहकों के भरोसे की एक कड़ी बनता है।", "Close navigation": "नेविगेशन बंद करें", "Field notebook": "फील्ड नोटबुक", "Customer view": "ग्राहक दृश्य", English: "अंग्रेज़ी", "How it works": "यह कैसे काम करता है", "Honey Passport": "हनी पासपोर्ट", "Sign in": "साइन इन", "Start your apiary": "अपना मधुमक्खी पालन क्षेत्र शुरू करें", "Traceability for the living world": "जीवंत दुनिया के लिए ट्रेस करने योग्य जानकारी", "Every jar has a story.": "हर जार की एक कहानी है।", "Verify a jar": "जार सत्यापित करें", "field records": "फील्ड रिकॉर्ड", "apiaries in bloom": "फूलों से भरे पालन क्षेत्र", "Add record": "रिकॉर्ड जोड़ें", "Add the first record": "पहला रिकॉर्ड जोड़ें", "The notebook could not be opened.": "नोटबुक नहीं खुल सकी।", "Check your connection and try again. Your records are safe.": "अपना कनेक्शन जाँचें और फिर प्रयास करें। आपके रिकॉर्ड सुरक्षित हैं।", "Try again": "फिर प्रयास करें", "New field note": "नया फील्ड नोट", "Save field note": "फील्ड नोट सहेजें", "hives": "मधुमक्खी पेटियाँ", "floral sources": "फूलों के स्रोत", "frames": "फ्रेम", "Inspect": "निरीक्षण", "Apiary name": "पालन क्षेत्र का नाम", "Hive count": "पेटियों की संख्या", "Bee species": "मधुमक्खी की प्रजाति", "Calm": "शांत", "Active": "सक्रिय", "Agitated": "व्याकुल", "Weak": "कमज़ोर", "Strong": "मजबूत", "Diseased": "बीमार", "Steady": "स्थिर", "Recorded": "दर्ज", "Pending": "लंबित", "Unknown apiary": "अज्ञात पालन क्षेत्र", "Choose a batch": "बैच चुनें", "Choose a hive": "मधुमक्खी पेटी चुनें", "harvest volume": "संग्रह मात्रा", "Open batch passport and QR payload": "बैच पासपोर्ट और QR विवरण खोलें", "No QR codes yet": "अभी कोई QR कोड नहीं", "Register a honey batch first. Its customer QR payload will appear here.": "पहले शहद बैच पंजीकृत करें। उसका ग्राहक QR विवरण यहाँ दिखाई देगा।", "No movement recorded": "कोई आवाजाही दर्ज नहीं", "The story continues when a batch changes hands.": "बैच के हाथ बदलने पर कहानी आगे बढ़ती है।", "Block history": "ब्लॉक इतिहास", "The ledger is waiting": "लेजर प्रतीक्षा कर रहा है", "Append your first harvest or batch event to see the chain.": "चेन देखने के लिए अपना पहला संग्रह या बैच इवेंट जोड़ें।", "Corrections stay visible": "सुधार दिखाई देते रहते हैं", "Append correction": "सुधार जोड़ें", "Transaction ID": "लेन-देन ID", "Reason for correction": "सुधार का कारण", "All batches": "सभी बैच", "Origin record": "मूल रिकॉर्ड", "Trace events": "ट्रेस इवेंट", "Batch details": "बैच विवरण", "Quality & care": "गुणवत्ता और देखभाल", "Leave a note for the keeper": "पालक के लिए टिप्पणी छोड़ें", "How did it land?": "आपको यह कैसा लगा?", "Thank you for tasting closely.": "ध्यान से स्वाद लेने के लिए धन्यवाद।", "Your note has been added to this passport.": "आपकी टिप्पणी इस पासपोर्ट में जोड़ दी गई है।", "Share feedback": "प्रतिक्रिया साझा करें", "Overall": "कुल मिलाकर", "Taste": "स्वाद", "Quality": "गुणवत्ता", "Production data will take shape after your first harvest.": "आपके पहले संग्रह के बाद उत्पादन डेटा का स्वरूप दिखाई देगा।", "By floral source": "फूलों के स्रोत के अनुसार", "Season conditions": "मौसम की स्थितियाँ", "Run forecast": "पूर्वानुमान चलाएँ", "Confidence": "विश्वसनीयता", "Your profile": "आपकी प्रोफ़ाइल", "Not added": "जोड़ा नहीं गया", "Role": "भूमिका", "Sign out of Honey Chain": "हनी चेन से साइन आउट करें", "Blockchain verification": "ब्लॉकचेन सत्यापन", "Checking blockchain proof...": "ब्लॉकचेन प्रमाण जाँचा जा रहा है...", "Blockchain verified": "ब्लॉकचेन सत्यापित", "Transaction hash": "लेन-देन हैश", "Contract address": "कॉन्ट्रैक्ट पता", "Copy transaction hash": "लेन-देन हैश कॉपी करें", "404 Page Not Found": "404 पेज नहीं मिला", "Did you forget to add the page to the router?": "क्या आप पेज को राउटर में जोड़ना भूल गए?"
+  },
+  mr: {
+    "Honey Chain": "हनी चेन", "Chain is humming": "चेन सक्रिय आहे", "Every field note becomes a thread your customers can trust.": "प्रत्येक फील्ड नोट तुमचे ग्राहक विश्वास ठेवू शकतील अशी कडी बनते.", "Close navigation": "नेव्हिगेशन बंद करा", "Field notebook": "फील्ड नोटबुक", "Customer view": "ग्राहक दृश्य", English: "इंग्रजी", "How it works": "हे कसे कार्य करते", "Honey Passport": "हनी पासपोर्ट", "Sign in": "साइन इन", "Start your apiary": "तुमचे मधमाशी पालन क्षेत्र सुरू करा", "Traceability for the living world": "सजीव जगासाठी मागोवा घेण्याची सुविधा", "Every jar has a story.": "प्रत्येक बरणीची एक कथा आहे.", "Verify a jar": "बरणी पडताळा", "field records": "फील्ड नोंदी", "apiaries in bloom": "फुललेल्या पालन क्षेत्रांची संख्या", "Add record": "नोंद जोडा", "Add the first record": "पहिली नोंद जोडा", "The notebook could not be opened.": "नोटबुक उघडता आले नाही.", "Check your connection and try again. Your records are safe.": "तुमचे कनेक्शन तपासा आणि पुन्हा प्रयत्न करा. तुमच्या नोंदी सुरक्षित आहेत.", "Try again": "पुन्हा प्रयत्न करा", "New field note": "नवीन फील्ड नोंद", "Save field note": "फील्ड नोंद जतन करा", "hives": "मधमाशी पेट्या", "floral sources": "फुलांचे स्रोत", "frames": "फ्रेम", "Inspect": "तपासणी", "Apiary name": "पालन क्षेत्राचे नाव", "Hive count": "पेट्यांची संख्या", "Bee species": "मधमाशीची जात", "Calm": "शांत", "Active": "सक्रिय", "Agitated": "अस्वस्थ", "Weak": "कमकुवत", "Strong": "मजबूत", "Diseased": "आजारी", "Steady": "स्थिर", "Recorded": "नोंदवलेले", "Pending": "प्रलंबित", "Unknown apiary": "अज्ञात पालन क्षेत्र", "Choose a batch": "बॅच निवडा", "Choose a hive": "मधमाशी पेटी निवडा", "harvest volume": "संकलनाचे प्रमाण", "Open batch passport and QR payload": "बॅच पासपोर्ट आणि QR तपशील उघडा", "No QR codes yet": "अजून QR कोड नाहीत", "Register a honey batch first. Its customer QR payload will appear here.": "प्रथम मधाच्या बॅचची नोंदणी करा. त्याचा ग्राहक QR तपशील येथे दिसेल.", "No movement recorded": "कोणतीही हालचाल नोंदवलेली नाही", "The story continues when a batch changes hands.": "बॅचचे हात बदलल्यावर कथा पुढे सुरू राहते.", "Block history": "ब्लॉक इतिहास", "The ledger is waiting": "लेजर प्रतीक्षेत आहे", "The ledger is waiting": "लेजर प्रतीक्षेत आहे", "Append your first harvest or batch event to see the chain.": "चेन पाहण्यासाठी तुमचा पहिला संकलन किंवा बॅच इव्हेंट जोडा.", "Corrections stay visible": "दुरुस्त्या दिसत राहतात", "Append correction": "दुरुस्ती जोडा", "Transaction ID": "व्यवहार ID", "Reason for correction": "दुरुस्तीचे कारण", "All batches": "सर्व बॅच", "Origin record": "मूळ नोंद", "Trace events": "मागोवा इव्हेंट", "Batch details": "बॅच तपशील", "Quality & care": "गुणवत्ता आणि काळजी", "Leave a note for the keeper": "पालकासाठी नोंद ठेवा", "How did it land?": "तुम्हाला ते कसे वाटले?", "Thank you for tasting closely.": "लक्षपूर्वक चव घेतल्याबद्दल धन्यवाद.", "Your note has been added to this passport.": "तुमची नोंद या पासपोर्टमध्ये जोडली आहे.", "Share feedback": "अभिप्राय शेअर करा", "Overall": "एकूण", "Taste": "चव", "Quality": "गुणवत्ता", "Production data will take shape after your first harvest.": "तुमच्या पहिल्या संकलनानंतर उत्पादन डेटाचे स्वरूप दिसेल.", "By floral source": "फुलांच्या स्रोतानुसार", "Season conditions": "हंगामाच्या परिस्थिती", "Run forecast": "अंदाज चालवा", "Confidence": "विश्वासार्हता", "Your profile": "तुमची प्रोफाइल", "Not added": "जोडलेले नाही", "Role": "भूमिका", "Sign out of Honey Chain": "हनी चेनमधून साइन आउट करा", "Blockchain verification": "ब्लॉकचेन पडताळणी", "Checking blockchain proof...": "ब्लॉकचेन पुरावा तपासत आहे...", "Blockchain verified": "ब्लॉकचेन पडताळले", "Transaction hash": "व्यवहार हॅश", "Contract address": "कॉन्ट्रॅक्ट पत्ता", "Copy transaction hash": "व्यवहार हॅश कॉपी करा", "404 Page Not Found": "404 पेज सापडले नाही", "Did you forget to add the page to the router?": "पेज राउटरमध्ये जोडायचे राहिले का?"
+  },
+};
 
 export function getLanguage(): Language {
   if (typeof window === "undefined") return "en";
@@ -171,6 +261,31 @@ export function getLanguage(): Language {
   }
 
   return "en";
+}
+
+const languageListeners = new Set<() => void>();
+
+export function setLanguage(language: Language): void {
+  if (typeof window === "undefined") return;
+
+  localStorage.setItem("honeychain-language", language);
+  languageListeners.forEach((listener) => listener());
+}
+
+export function translateText(value: string): string {
+  const key = textKeys[value];
+  return key ? t(key) : phraseTranslations[getLanguage()][value] ?? value;
+}
+
+export function useLanguage(): Language {
+  return useSyncExternalStore(
+    (listener) => {
+      languageListeners.add(listener);
+      return () => languageListeners.delete(listener);
+    },
+    getLanguage,
+    () => "en",
+  );
 }
 
 export function t(key: keyof typeof translations.en): string {

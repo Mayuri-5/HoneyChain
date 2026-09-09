@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Bell, Blocks, Boxes, ChevronLeft, ChevronRight, Hexagon, Home, LogOut, Menu, ScanLine, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/lib/auth';
-import { t } from '@/lib/i18n';
+import { setLanguage, t, useLanguage, type Language } from '@/lib/i18n';
 
 const primaryNav = [
   { href: '/dashboard', label: 'Dashboard', icon: Home },
@@ -54,6 +54,7 @@ function NavGroup({ title, items, pathname, onNavigate }: { title: string; items
 
 export function AppShell({ children }: { children: ReactNode }) {
   const [pathname] = useLocation();
+  const language = useLanguage();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [, setLocation] = useLocation();
@@ -93,12 +94,9 @@ export function AppShell({ children }: { children: ReactNode }) {
           <Link href="/verify/HC-2026-0001" className="hidden items-center gap-2 rounded-xl border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground transition hover:border-primary sm:flex" data-testid="link-customer-passport"><ScanLine className="size-4 text-primary" />Customer view</Link>
           <select
   className="rounded-xl border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground outline-none"
-  defaultValue={localStorage.getItem("honeychain-language") || "en"}
-  onChange={(e) => {
-  localStorage.setItem("honeychain-language", e.target.value);
-  window.location.reload();
-}}
-  aria-label="Select language"
+  value={language}
+  onChange={(e) => setLanguage(e.target.value as Language)}
+  aria-label={t('language')}
 >
   <option value="en">English</option>
   <option value="hi">हिंदी</option>
@@ -114,7 +112,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <button type="button" onClick={doSignOut} className="rounded-xl p-2 text-muted-foreground transition hover:bg-destructive/10 hover:text-destructive" data-testid="button-sign-out"><LogOut className="size-4" /></button>
         </div>
       </header>
-      <main className="app-enter mx-auto max-w-[1520px] px-4 py-7 sm:px-7 lg:px-10 lg:py-9">{children}</main>
+      <main key={language} className="app-enter mx-auto max-w-[1520px] px-4 py-7 sm:px-7 lg:px-10 lg:py-9">{children}</main>
     </div>
   </div>;
 }
