@@ -348,6 +348,49 @@ router.post("/batches", (req, res): void => {
   res.status(201).json(CreateBatchResponse.parse(batch));
 });
 
+router.post("/batches/:batchId/cancel", (req, res): void => {
+  const params = GetBatchParams.safeParse(req.params);
+  if (!params.success) {
+    res.status(400).json({ error: params.error.message });
+    return;
+  }
+
+  const batch = store.batches.find((item) => item.id === params.data.batchId);
+  if (!batch) {
+    res.status(404).json({ error: "Batch not found" });
+    return;
+  }
+
+  if (batch.status === "Cancelled") {
+    res.status(400).json({ error: "Batch is already cancelled" });
+    return;
+  }
+
+  const reason =
+    typeof req.body?.reason === "string" && req.body.reason.trim()
+      ? req.body.reason.trim()
+      : "Batch cancelled by authorized user.";
+
+  const previousStatus = batch.status;
+  batch.status = "Cancelled";
+
+  addBlock(
+    batch.id,
+    "CORRECTION_TRANSACTION",
+    {
+      batchId: batch.id,
+      field: "status",
+      oldValue: previousStatus,
+      newValue: "Cancelled",
+      reason,
+    },
+    currentActor(req),
+  );
+
+  void persistStore();
+  res.json(batch);
+});
+
 router.get("/batches/:batchId", (req, res): void => {
   const params = GetBatchParams.safeParse(req.params);
   if (!params.success) {

@@ -136,6 +136,7 @@ export function BatchesPage() {
   const apiaries = useListApiaries();
   const create = useCreateBatch();
   const { user } = useAuth();
+  const [cancelling, setCancelling] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState<AnyRecord>({
     hiveId: "",
@@ -215,12 +216,12 @@ export function BatchesPage() {
       ) : (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {list.map((b: AnyRecord) => (
-            <Link
-              href={`/batches/${b.id}`}
+            <div
               key={b.id}
               className="group rounded-2xl border border-border bg-card p-5 transition hover:-translate-y-1 hover:border-primary/50 hover:shadow-lg"
               data-testid={`card-batch-${b.id}`}
             >
+              <Link href={`/batches/${b.id}`} className="block">
               <div className="flex items-start justify-between">
                 <span className="font-mono-ui text-[10px] uppercase tracking-widest text-muted-foreground">
                   Batch / {String(b.id).slice(0, 8)}
@@ -254,7 +255,50 @@ export function BatchesPage() {
 
                 <ArrowRight className="size-5 text-primary transition-transform group-hover:translate-x-1" />
               </div>
-            </Link>
+              </Link>
+
+              {b.status !== "Cancelled" && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="mt-4 w-full rounded-xl text-destructive hover:text-destructive"
+                  disabled={cancelling === b.id}
+                  onClick={async () => {
+                    const reason = window.prompt(
+                      "Why are you cancelling this batch?",
+                      "Incorrect batch details",
+                    );
+                    if (reason === null) return;
+
+                    setCancelling(b.id);
+                    try {
+                      const response = await fetch(`/api/batches/${encodeURIComponent(b.id)}/cancel`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ reason }),
+                      });
+
+                      if (!response.ok) {
+                        const data = await response.json().catch(() => ({}));
+                        throw new Error(data.error ?? "Could not cancel batch.");
+                      }
+
+                      await queryClient.invalidateQueries({
+                        queryKey: getListBatchesQueryKey(),
+                      });
+                    } catch (error) {
+                      window.alert(String(error));
+                    } finally {
+                      setCancelling(null);
+                    }
+                  }}
+                  data-testid={`button-cancel-batch-${b.id}`}
+                >
+                  {cancelling === b.id ? "Cancelling…" : "Cancel batch"}
+                </Button>
+              )}
+            </div>
           ))}
         </div>
       )}
