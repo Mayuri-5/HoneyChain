@@ -90,7 +90,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <div className="hidden items-center gap-2 text-sm text-muted-foreground sm:flex"><span className="font-mono-ui text-[11px] uppercase tracking-[.16em]">Field notebook</span><ChevronRight className="size-3.5" /><span className="text-foreground">{primaryNav.find((item) => pathname.startsWith(item.href))?.label ?? 'Honey Chain'}</span></div>
         </div>
         <div className="flex items-center gap-2.5">
-          <Link href="/verify/demo" className="hidden items-center gap-2 rounded-xl border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground transition hover:border-primary sm:flex" data-testid="link-customer-passport"><ScanLine className="size-4 text-primary" />Customer view</Link>
+          <Link href="/verify/HC-2026-0001" className="hidden items-center gap-2 rounded-xl border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground transition hover:border-primary sm:flex" data-testid="link-customer-passport"><ScanLine className="size-4 text-primary" />Customer view</Link>
           <select
   className="rounded-xl border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground outline-none"
   defaultValue={localStorage.getItem("honeychain-language") || "en"}

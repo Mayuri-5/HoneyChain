@@ -4,11 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --config vite.config.ts --host 0.0.0.0",
-    "build": "vite build --config vite.config.ts",
-    "serve": "vite preview --config vite.config.ts --host 0.0.0.0",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
-  },
+  "preinstall": "sh -c 'rm -f package-lock.jsonyarn.lock; case \"$npm_config_user_agent\" in pnpm/*) ;; *) echo \"Use pnpm instead\" >&2; exit 1 ;; esac'",
+  "build": "pnpm run typecheck && pnpm -r --if-present run build",
+  "typecheck:libs": "tsc --build",
+  "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck",
+  "start:honey": "concurrently \"pnpm --dir artifacts/api-server dev\" \"cd artifacts/honey-chain && BASE_PATH=/ PORT=5173 pnpm dev\""
+},
   "devDependencies": {
     "@hookform/resolvers": "^3.10.0",
     "@radix-ui/react-accordion": "^1.2.4",

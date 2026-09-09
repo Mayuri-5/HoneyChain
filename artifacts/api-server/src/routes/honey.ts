@@ -140,7 +140,7 @@ router.get("/dashboard", (_req, res): void => {
     GetDashboardResponse.parse({
       stats,
       recentActivity: [],
-      notifications: [],
+      notifications: [{ id: "ALERT-001", title: "Hive H-01 needs attention", message: "Temperature is above the recommended range. Check hive ventilation and colony condition." }],
     }),
   );
 });
