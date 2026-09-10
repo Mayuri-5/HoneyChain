@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://honey-chain-api-2eey.onrender.com/api/:path*"
+    }
+  ]
+}
