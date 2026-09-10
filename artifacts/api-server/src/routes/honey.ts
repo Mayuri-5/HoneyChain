@@ -142,7 +142,6 @@ router.get("/dashboard", (_req, res): void => {
     GetDashboardResponse.parse({
       stats,
       recentActivity: [],
-      notifications: [{ id: "ALERT-001", title: "Hive H-01 needs attention", message: "Temperature is above the recommended range. Check hive ventilation and colony condition.", time: "Just now", unread: true }],
     }),
   );
 });
@@ -397,6 +396,15 @@ router.get("/batches/:batchId", (req, res): void => {
     res.status(400).json({ error: params.error.message });
     return;
   }
+  const batch = store.batches.find((item) => item.id === params.data.batchId);
+  if (!batch) {
+    res.status(404).json({ error: "Batch not found" });
+    return;
+  }
+  if (batch.status === "Cancelled") {
+    res.status(410).json({ error: "This batch has been cancelled and its public passport is no longer available." });
+    return;
+  }
   const passport = getPassport(params.data.batchId);
   if (!passport) {
     res.status(404).json({ error: "Batch not found" });
@@ -411,8 +419,13 @@ router.get("/batches/:batchId/qr", (req, res): void => {
     res.status(400).json({ error: params.error.message });
     return;
   }
-  if (!store.batches.some((batch) => batch.id === params.data.batchId)) {
+  const batch = store.batches.find((item) => item.id === params.data.batchId);
+  if (!batch) {
     res.status(404).json({ error: "Batch not found" });
+    return;
+  }
+  if (batch.status === "Cancelled") {
+    res.status(409).json({ error: "Cancelled batches cannot generate QR codes" });
     return;
   }
   const verificationPath = `/verify/${params.data.batchId}`;
@@ -502,6 +515,15 @@ router.get("/verify/:batchId", (req, res): void => {
     res.status(400).json({ error: params.error.message });
     return;
   }
+  const batch = store.batches.find((item) => item.id === params.data.batchId);
+  if (!batch) {
+    res.status(404).json({ error: "Batch not found" });
+    return;
+  }
+  if (batch.status === "Cancelled") {
+    res.status(410).json({ error: "This batch has been cancelled and its public passport is no longer available." });
+    return;
+  }
   const passport = getPassport(params.data.batchId);
   if (!passport) {
     res.status(404).json({ error: "Batch not found" });
@@ -514,6 +536,15 @@ router.get("/verify/:batchId/blockchain", async (req, res): Promise<void> => {
   const params = VerifyBatchParams.safeParse(req.params);
   if (!params.success) {
     res.status(400).json({ error: params.error.message });
+    return;
+  }
+  const batch = store.batches.find((item) => item.id === params.data.batchId);
+  if (!batch) {
+    res.status(404).json({ error: "Batch not found" });
+    return;
+  }
+  if (batch.status === "Cancelled") {
+    res.status(410).json({ error: "This batch has been cancelled and its public passport is no longer available." });
     return;
   }
   const passport = getPassport(params.data.batchId);
