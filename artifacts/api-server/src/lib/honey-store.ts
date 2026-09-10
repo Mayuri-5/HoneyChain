@@ -1,4 +1,6 @@
 import { createHash, randomUUID } from "node:crypto";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 import { logger } from "./logger";
 import { submitBlockchainRecord } from "./blockchain/client";
 import { loadBlockchainConfig } from "./blockchain/config";
@@ -60,6 +62,7 @@ export type BatchRecord = {
   harvestId: string;
   hiveId: string;
   beekeeperEmail: string;
+  ownerId: string;
   apiaryName: string;
   location: string;
   beeSpecies: string;
@@ -419,9 +422,29 @@ export function nextId(prefix: string): string {
   return `${prefix}-${randomUUID().slice(0, 8).toUpperCase()}`;
 }
 
-async function persistStore(): Promise<void> {
-  // Prototype mode: data is kept in memory.
-  // Database persistence can be added later for production deployment.
+const STORE_FILE = join(process.cwd(), "data", "store.json");
+
+function loadPersistedStore(): void {
+  if (!existsSync(STORE_FILE)) return;
+
+  try {
+    const saved = JSON.parse(readFileSync(STORE_FILE, "utf8"));
+    Object.assign(store, saved);
+    logger.info("Loaded persisted HoneyChain store.");
+  } catch (error) {
+    logger.error({ error }, "Could not load persisted HoneyChain store.");
+  }
 }
+
+async function persistStore(): Promise<void> {
+  try {
+    mkdirSync(dirname(STORE_FILE), { recursive: true });
+    writeFileSync(STORE_FILE, JSON.stringify(store, null, 2), "utf8");
+  } catch (error) {
+    logger.error({ error }, "Could not persist HoneyChain store.");
+  }
+}
+
+loadPersistedStore();
 
 export { persistStore };

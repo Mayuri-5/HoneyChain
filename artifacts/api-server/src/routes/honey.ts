@@ -293,8 +293,10 @@ router.post("/harvests", (req, res): void => {
   res.status(201).json(CreateHarvestResponse.parse(harvest));
 });
 
-router.get("/batches", (_req, res): void => {
-  res.json(ListBatchesResponse.parse(store.batches));
+router.get("/batches", (req, res): void => {
+  const ownerId = currentActor(req);
+  const batches = store.batches.filter((batch) => batch.ownerId === ownerId);
+  res.json(ListBatchesResponse.parse(batches));
 });
 
 router.post("/batches", (req, res): void => {
@@ -332,6 +334,7 @@ router.post("/batches", (req, res): void => {
     harvestId: harvest.id,
     hiveId: hive.id,
     beekeeperEmail: parsed.data.beekeeperEmail,
+    ownerId: currentActor(req),
     apiaryName: apiary.name,
     location: parsed.data.location,
     beeSpecies: hive.beeSpecies,
