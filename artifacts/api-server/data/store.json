@@ -1,0 +1,226 @@
+{
+  "user": null,
+  "apiaries": [
+    {
+      "name": "Ap-01",
+      "location": "Nashik",
+      "beeSpecies": "Apis mellifera",
+      "hiveCount": 13,
+      "floralSources": [
+        "sage"
+      ],
+      "notes": "nothing",
+      "id": "APIARY-225CDE61",
+      "status": "Active"
+    }
+  ],
+  "hives": [
+    {
+      "name": "H01",
+      "apiaryId": "APIARY-225CDE61",
+      "beeSpecies": "Apis mellifera",
+      "frames": 10,
+      "queenAge": 1,
+      "strength": "steady",
+      "health": "healthy",
+      "dateAdded": "2026-09-10",
+      "id": "HIVE-B891E4D6",
+      "apiaryName": "Ap-01",
+      "productionKg": 0
+    }
+  ],
+  "harvests": [
+    {
+      "id": "HARVEST-EF64E8FD",
+      "hiveId": "HIVE-B891E4D6",
+      "hiveName": "H01",
+      "harvestDate": "2026-09-10",
+      "quantityKg": 11,
+      "floralSource": "Wildflower",
+      "weather": "Not recorded",
+      "notes": "Harvest recorded during batch registration.",
+      "blockchainTxId": "TX-0001"
+    },
+    {
+      "id": "HARVEST-354BC2C0",
+      "hiveId": "HIVE-B891E4D6",
+      "hiveName": "H01",
+      "harvestDate": "2026-09-10",
+      "quantityKg": 5,
+      "floralSource": "Wildflower",
+      "weather": "Not recorded",
+      "notes": "Harvest recorded during batch registration.",
+      "blockchainTxId": "TX-0003"
+    }
+  ],
+  "batches": [
+    {
+      "id": "HC-2026-0001",
+      "harvestId": "HARVEST-EF64E8FD",
+      "hiveId": "HIVE-B891E4D6",
+      "beekeeperEmail": "Ram123@gmail.com",
+      "ownerId": "system",
+      "apiaryName": "Ap-01",
+      "location": "Nashik",
+      "beeSpecies": "Apis mellifera",
+      "harvestDate": "2026-09-10",
+      "quantityKg": 11,
+      "floralSource": "Wildflower",
+      "status": "Harvested",
+      "blockchainStatus": "Verified"
+    },
+    {
+      "id": "HC-2026-0002",
+      "harvestId": "HARVEST-354BC2C0",
+      "hiveId": "HIVE-B891E4D6",
+      "beekeeperEmail": "test@example.com",
+      "ownerId": "system",
+      "apiaryName": "Ap-01",
+      "location": "Test Apiary",
+      "beeSpecies": "Apis mellifera",
+      "harvestDate": "2026-09-10",
+      "quantityKg": 5,
+      "floralSource": "Wildflower",
+      "status": "Packaged",
+      "blockchainStatus": "Verified"
+    }
+  ],
+  "quality": [
+    {
+      "id": "QUALITY-4D32DEDA",
+      "batchId": "HC-2026-0002",
+      "moisture": 17.5,
+      "hmf": 8.2,
+      "diastase": 12,
+      "ph": 4.1,
+      "sugarContent": 81.5,
+      "purityStatus": "Pure",
+      "laboratory": "HoneyChain Test Laboratory",
+      "testDate": "2026-09-10",
+      "certificateUrl": "",
+      "blockchainTxId": "TX-0005"
+    }
+  ],
+  "processing": [
+    {
+      "id": "PROCESSING-9EFA36D3",
+      "batchId": "HC-2026-0002",
+      "processingDate": "2026-09-10",
+      "method": "Cold extraction",
+      "packaging": "Glass jar",
+      "netWeightKg": 4.5,
+      "packageDate": "2026-09-10",
+      "expiryDate": "2028-09-10",
+      "blockchainTxId": "TX-0006"
+    }
+  ],
+  "supply": [],
+  "feedback": [
+    {
+      "id": "FEEDBACK-51BC7866",
+      "batchId": "HC-2026-0001",
+      "overallRating": 1,
+      "tasteRating": 1,
+      "qualityRating": 1,
+      "packagingRating": 5,
+      "comment": "very bad ",
+      "submittedAt": "2026-09-10T05:19:04.398Z"
+    }
+  ],
+  "blockchain": [
+    {
+      "index": 1,
+      "transactionId": "TX-0001",
+      "batchId": "HARVEST-EF64E8FD",
+      "eventType": "HARVEST_RECORDED",
+      "timestamp": "2026-09-10T05:13:46.608Z",
+      "dataHash": "8eeedd726d62e54d39c257e3d6c5097ecda4d49351f95e5bdc7900e3adac0cff",
+      "previousHash": "GENESIS",
+      "currentHash": "6c83f0093446c65981b289260f4f2026ddff9305b71fba6ebcf38440aa30f775",
+      "actor": "system",
+      "status": "Verified",
+      "blockchainStatus": "NOT_CONFIGURED"
+    },
+    {
+      "index": 2,
+      "transactionId": "TX-0002",
+      "batchId": "HC-2026-0001",
+      "eventType": "BATCH_CREATED",
+      "timestamp": "2026-09-10T05:13:46.608Z",
+      "dataHash": "268c1cdb69cf054847a94da634c6ae45061d5cd07f28ebc30106cd405b701d44",
+      "previousHash": "6c83f0093446c65981b289260f4f2026ddff9305b71fba6ebcf38440aa30f775",
+      "currentHash": "ba07ffd94f0f6a9085997881389d30147864cfa578f0b94f0f48be39286ecc66",
+      "actor": "system",
+      "status": "Verified",
+      "blockchainStatus": "CONFIRMED",
+      "blockchainTxHash": "0x93e0e2a59f979a169394d3a156c8f83f1a05716f9b471b164b95ed54341d179d",
+      "blockchainBlockNumber": 2,
+      "blockchainNetwork": "LocalHardhat",
+      "blockchainContractAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+    },
+    {
+      "index": 3,
+      "transactionId": "TX-0003",
+      "batchId": "HARVEST-354BC2C0",
+      "eventType": "HARVEST_RECORDED",
+      "timestamp": "2026-09-10T06:02:39.616Z",
+      "dataHash": "1440f4f9ed84cafa1ba5589a8722686f9ad9abc15d66723dbac63955ae64463f",
+      "previousHash": "ba07ffd94f0f6a9085997881389d30147864cfa578f0b94f0f48be39286ecc66",
+      "currentHash": "4b3653350cd2cedf487e81e47998f9c834f60ee404721ce051f066d8c4f83c4b",
+      "actor": "system",
+      "status": "Verified",
+      "blockchainStatus": "CONFIRMED",
+      "blockchainTxHash": "0x5d53e71ec05bf46ce8c7da381958bbd89b78bab978e70c48f2cec0fca0d734cc",
+      "blockchainBlockNumber": 4,
+      "blockchainNetwork": "unknown:31337",
+      "blockchainContractAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+    },
+    {
+      "index": 4,
+      "transactionId": "TX-0004",
+      "batchId": "HC-2026-0002",
+      "eventType": "BATCH_CREATED",
+      "timestamp": "2026-09-10T06:02:39.621Z",
+      "dataHash": "0ff50b543b278f65ae8356b9655638cb5619ef2efe6686b9aff4adf7d51c1ba7",
+      "previousHash": "4b3653350cd2cedf487e81e47998f9c834f60ee404721ce051f066d8c4f83c4b",
+      "currentHash": "e878c70ec28b868ce638b0cf8b4364f380e506860e9f995603eed8153ee9ec12",
+      "actor": "system",
+      "status": "Verified",
+      "blockchainStatus": "CONFIRMED",
+      "blockchainTxHash": "0x872dc6ecc199203a19df1f7178b21275b637bbece4611091cf741920591889a9",
+      "blockchainBlockNumber": 3,
+      "blockchainNetwork": "unknown:31337",
+      "blockchainContractAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+    },
+    {
+      "index": 5,
+      "transactionId": "TX-0005",
+      "batchId": "HC-2026-0002",
+      "eventType": "QUALITY_VERIFIED",
+      "timestamp": "2026-09-10T06:06:52.089Z",
+      "dataHash": "6b966d9936e700facfffd21b4099e1d6c266d7d229eee8db8c4981c2e51a56e7",
+      "previousHash": "e878c70ec28b868ce638b0cf8b4364f380e506860e9f995603eed8153ee9ec12",
+      "currentHash": "2db4012674c8627ae15eec13de5dc096b204415bffbab18d73fa9edfd6363e23",
+      "actor": "system",
+      "status": "Verified",
+      "blockchainStatus": "CONFIRMED",
+      "blockchainTxHash": "0xc85924a9c2a48341b158c60b3521aa9cc550359e0128e40947fc3c9d60182366",
+      "blockchainBlockNumber": 5,
+      "blockchainNetwork": "unknown:31337",
+      "blockchainContractAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+    },
+    {
+      "index": 6,
+      "transactionId": "TX-0006",
+      "batchId": "HC-2026-0002",
+      "eventType": "PROCESSED_PACKAGED",
+      "timestamp": "2026-09-10T06:08:21.309Z",
+      "dataHash": "559022bb8778696abebb6e5f56a0f1ff64dad0b100bc8d3d8e3a3d988c94169e",
+      "previousHash": "2db4012674c8627ae15eec13de5dc096b204415bffbab18d73fa9edfd6363e23",
+      "currentHash": "880587a79ac2f87f4e42a4a0d91d2efb7b476339ed6fdd5ddf8b3bfdcc679e62",
+      "actor": "system",
+      "status": "Verified",
+      "blockchainStatus": "PENDING"
+    }
+  ]
+}

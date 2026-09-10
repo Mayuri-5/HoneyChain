@@ -142,6 +142,7 @@ router.get("/dashboard", (_req, res): void => {
     GetDashboardResponse.parse({
       stats,
       recentActivity: [],
+      notifications: [],
     }),
   );
 });
